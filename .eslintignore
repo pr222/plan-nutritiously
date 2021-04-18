@@ -1,0 +1,8 @@
+# Ignore node modules
+**/node_modules/*
+# Ignore folder where Next.js puts published pages
+**/out/*
+# Ignore the internals of Next.js
+**/.next/*
+# Ignore _app.js file since linter does not approve but the code is in line with Next.js documentation
+**/pages/_app.js
