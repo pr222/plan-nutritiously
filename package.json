@@ -24,6 +24,7 @@
   "author": "Pauliina Raitaniemi <pr222ja@student.lnu.se>",
   "license": "ISC",
   "dependencies": {
+    "mongodb": "^3.6.6",
     "next": "^10.1.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
