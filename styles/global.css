@@ -1,8 +1,14 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family:'Courier New', Courier, monospace;
+  font-family: 'Lato', sans-serif;
   line-height: 1.6;
-  font-size: 18px;
+  font-size: 1.25rem;
+  background-color: #F7F7F7;
 }

@@ -1,7 +1,8 @@
+// CURRENTLY NOT IN USE
+
 import Link from 'next/link';
 import navStyles from '../styles/Nav.module.css';
 
-// const PATH = process.env.BASE_PATH
 const Nav = () => (
   <nav className={navStyles.nav}>
     <ul>
