@@ -6,12 +6,10 @@ import style from '../styles/Form.module.css';
 export default function EditGoals() {
   const goalContext = useContext(GoalContext);
 
+  // Fill form-inputs with info saved from local storage.
   const loadFromStorage = () => {
     if (typeof window !== 'undefined') {
-      console.log('GET LOCAL');
-      // console.log(goalContext.goals);
       const loadGoals = JSON.parse(window.localStorage.getItem('goals'));
-      console.log(loadGoals);
       goalContext.setKcal(loadGoals.kcal);
       goalContext.setFat(loadGoals.fat);
       goalContext.setCarbs(loadGoals.carbs);
@@ -19,18 +17,10 @@ export default function EditGoals() {
     }
   };
 
+  // Take info from context and save into local storage.
   const saveGoals = (event) => {
     event.preventDefault();
 
-    // goal.setKcal = event.target.goalKcal.value;
-    // goal.setFat = event.target.goalFat.value;
-    // goal.setCarbs = event.target.goalCarbs.value;
-    // goal.setProtein = event.target.goalProtein.value;
-    // console.log(goal);
-    // localStorage.setItem('goalKcal', goal.kcal);
-    // localStorage.setItem('goalFat', goal.fat);
-    // localStorage.setItem('goalCarbs', goal.carbs);
-    // localStorage.setItem('goalProtein', goal.protein);
     const newGoals = {
       kcal: goalContext.kcal,
       fat: goalContext.fat,
@@ -39,7 +29,6 @@ export default function EditGoals() {
     };
 
     localStorage.setItem('goals', JSON.stringify(newGoals));
-    console.log('SAVED!');
   };
 
   return (
@@ -64,16 +53,6 @@ export default function EditGoals() {
               onChange={(e) => (goalContext.setKcal(e.target.value))}
             />
           </label>
-          {/* <label htmlFor="goalsKcal">
-            kcal
-            <input
-              id="goalsKcal"
-              name="goalsKcal"
-              placeholder="min kcals per day"
-              value={goalContext.goals.kcal}
-              onChange={(e) => (goalContext.setGoals({ kcal: e.target.value }))}
-            />
-          </label> */}
         </fieldset>
 
         <fieldset>

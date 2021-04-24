@@ -1,18 +1,13 @@
 import Head from 'next/head';
-// import { useContext } from 'react';
-// import { GoalContext } from '../contexts/GoalContext';
 // import PropTypes from 'prop-types';
 // import connectToDatabase from '../middleware/mongodb';
 
 // export default function Home({ isConnected }) {
 export default function Home() {
-  // const goal = useContext(GoalContext);
   let goals;
 
   if (typeof window !== 'undefined') {
-    console.log('GET LOCAL');
     goals = JSON.parse(window.localStorage.getItem('goals'));
-    console.log(goals);
   } else {
     goals = '';
   }
