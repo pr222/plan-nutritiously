@@ -6,6 +6,20 @@ import style from '../styles/Form.module.css';
 export default function EditGoals() {
   const goalContext = useContext(GoalContext);
 
+  const validateForm = (input) => {
+    let validated;
+    // ADD ERROR MESSAGE
+
+    // Only accept digits.
+    if (/\D+/.test(input.goalKcal.value) || /\D+/.test(input.goalFat.value) || /\D+/.test(input.goalCarbs.value) || /\D+/.test(input.goalProtein.value)) {
+      validated = false;
+    } else {
+      validated = true;
+    }
+
+    return validated;
+  };
+
   // Fill form-inputs with info saved from local storage.
   const loadFromStorage = () => {
     if (typeof window !== 'undefined') {
@@ -18,17 +32,23 @@ export default function EditGoals() {
   };
 
   // Take info from context and save into local storage.
-  const saveGoals = (event) => {
+  const submitGoals = (event) => {
     event.preventDefault();
 
-    const newGoals = {
-      kcal: goalContext.kcal,
-      fat: goalContext.fat,
-      carbs: goalContext.carbs,
-      protein: goalContext.protein,
-    };
+    const isValid = validateForm(event.target);
 
-    localStorage.setItem('goals', JSON.stringify(newGoals));
+    if (isValid) {
+      const newGoals = {
+        kcal: goalContext.kcal,
+        fat: goalContext.fat,
+        carbs: goalContext.carbs,
+        protein: goalContext.protein,
+      };
+
+      localStorage.setItem('goals', JSON.stringify(newGoals));
+    } else {
+      console.log('NOT SUBMITTED');
+    }
   };
 
   return (
@@ -40,7 +60,7 @@ export default function EditGoals() {
       <h1>Edit your nutrition goals</h1>
       <button type="button" onClick={loadFromStorage}>Load Previously Saved Goals</button>
 
-      <form onSubmit={saveGoals} className={style.form}>
+      <form onSubmit={submitGoals} className={style.form}>
         <fieldset>
           <legend className={style.header}>Calories</legend>
           <label htmlFor="goalKcal">
