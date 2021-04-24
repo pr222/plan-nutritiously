@@ -1,9 +1,22 @@
 import Head from 'next/head';
+// import { useContext } from 'react';
+// import { GoalContext } from '../contexts/GoalContext';
 // import PropTypes from 'prop-types';
 // import connectToDatabase from '../middleware/mongodb';
 
 // export default function Home({ isConnected }) {
 export default function Home() {
+  // const goal = useContext(GoalContext);
+  let goals;
+
+  if (typeof window !== 'undefined') {
+    console.log('GET LOCAL');
+    goals = JSON.parse(window.localStorage.getItem('goals'));
+    console.log(goals);
+  } else {
+    goals = '';
+  }
+
   return (
     <>
       <Head>
@@ -11,6 +24,22 @@ export default function Home() {
       </Head>
       <h1>Welcome!</h1>
       <p>Plan your groceries nutritiously</p>
+      <div>
+        Kcal Goal:
+        {goals.kcal}
+      </div>
+      <div>
+        Fat Goal:
+        {goals.fat}
+      </div>
+      <div>
+        Carbs Goal:
+        {goals.carbs}
+      </div>
+      <div>
+        Protein Goal:
+        {goals.protein}
+      </div>
 
       {/* {isConnected ? (
         console.log('You are connected to MongoDB')

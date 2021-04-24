@@ -12,8 +12,9 @@
 
 .logo {
   grid-area: logo;
-  padding-left: 40px;
+  margin: 20px;
   padding-bottom: 10px;
+
 }
 
 .logo h1, .logo h2 {
@@ -25,7 +26,7 @@
 }
 
 .logo h2 {
-  margin-top: -40px;
+  margin-top: -20px;
   margin-left: 6px;
   font-size: 1.5rem;
 }

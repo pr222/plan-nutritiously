@@ -1,0 +1,31 @@
+.form {
+  max-width: 800px;
+}
+
+.form fieldset {
+  border: 1px dotted;
+  padding: 15px;
+}
+
+.header {
+  font-style: italic;
+  font-weight: 700;
+}
+
+.form label {
+  display: flex;
+  justify-content: center;
+  justify-content: space-between;
+  margin: 5px;
+}
+
+.form input {
+  text-align: right;  
+}
+
+.form button {
+  padding: 10px;
+  margin: 2px;
+  margin-top: 5px;
+  float: right;
+}
