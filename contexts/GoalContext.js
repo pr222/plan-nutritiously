@@ -4,49 +4,44 @@ import { createContext, useState } from 'react';
 export const GoalContext = createContext();
 
 export const GoalProvider = ({ children }) => {
-  // let goal;
-  // if (localStorage) {
-  //   console.log('LOCAL!');
-  //   goal = window.localStorage.getItem('goalKcal');
-  // }
-  // const [goals, setGoals] = useState({
-  //   kcal: '',
-  //   fat: '',
-  //   carbs: '',
-  //   protein: '',
-  // });
-  const [kcal, setKcal] = useState('');
-  const [fat, setFat] = useState('');
-  const [carbs, setCarbs] = useState('');
-  const [protein, setProtein] = useState('');
-  // const [goals, setGoals] = useState([]);
+  // Default values for state
+  const goal = {
+    kcal: '',
+    fat: '',
+    carbs: '',
+    protein: '',
+  };
+
+  // Get values from localStorage if available
+  if (typeof window !== 'undefined') {
+    const loadedGoal = JSON.parse(window.localStorage.getItem('goals'));
+    if (loadedGoal !== null) {
+      goal.kcal = loadedGoal.kcal;
+      goal.fat = loadedGoal.fat;
+      goal.carbs = loadedGoal.carbs;
+      goal.protein = loadedGoal.protein;
+    }
+  }
+
+  // Set state values with default or updated from localStorage
+  const [goals, setGoals] = useState({
+    kcal: goal.kcal,
+    fat: goal.fat,
+    carbs: goal.carbs,
+    protein: goal.protein,
+  });
 
   return (
     <GoalContext.Provider
       value={{
-        // goals,
-        // setGoals,
-        kcal,
-        fat,
-        carbs,
-        protein,
-        setKcal,
-        setFat,
-        setCarbs,
-        setProtein,
+        goals,
+        setGoals,
       }}
     >
       {children}
     </GoalContext.Provider>
   );
 };
-
-// export async function getStaticProps() {
-//   // if (localStorage) {
-//   //   console.log('LOCAL!');
-//   // }
-//   return { props: {} };
-// }
 
 GoalProvider.propTypes = {
   children: PropTypes.node.isRequired,

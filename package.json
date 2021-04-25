@@ -44,12 +44,17 @@
       "airbnb",
       "airbnb/hooks"
     ],
+    "plugins": [
+      "react-hooks"
+    ],
     "env": {
       "browser": true,
       "es2021": true,
       "node": true
     },
     "rules": {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
       "react/react-in-jsx-scope": "off",
       "react/jsx-filename-extension": [
         1,
