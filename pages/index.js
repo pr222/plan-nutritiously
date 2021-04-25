@@ -1,12 +1,21 @@
 import Head from 'next/head';
-import { useContext } from 'react';
-import { GoalContext } from '../contexts/GoalContext';
 // import PropTypes from 'prop-types';
 // import connectToDatabase from '../middleware/mongodb';
 
 // export default function Home({ isConnected }) {
 export default function Home() {
-  const goalContext = useContext(GoalContext);
+  let goals;
+
+  if (typeof window !== 'undefined') {
+    const loadGoals = JSON.parse(window.localStorage.getItem('goals'));
+    if (loadGoals !== null) {
+      goals = loadGoals;
+    } else {
+      goals = '';
+    }
+  } else {
+    goals = '';
+  }
 
   return (
     <>
@@ -17,19 +26,19 @@ export default function Home() {
       <p>Plan your groceries nutritiously</p>
       <div>
         Kcal Goal:
-        {goalContext.goals.kcal}
+        {goals.kcal}
       </div>
       <div>
         Fat Goal:
-        {goalContext.goals.fat}
+        {goals.fat}
       </div>
       <div>
         Carbs Goal:
-        {goalContext.goals.carbs}
+        {goals.carbs}
       </div>
       <div>
         Protein Goal:
-        {goalContext.goals.protein}
+        {goals.protein}
       </div>
 
       {/* {isConnected ? (
