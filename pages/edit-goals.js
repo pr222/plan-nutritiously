@@ -1,15 +1,12 @@
 import Head from 'next/head';
-// import { useContext, useState } from 'react';
 import { useState } from 'react';
-// import { GoalContext } from '../contexts/GoalContext';
 import style from '../styles/Form.module.css';
 
 export default function EditGoals() {
-  // const goalContext = useContext(GoalContext);
   const [isSaved, setIsSaved] = useState(false);
   const [error, setError] = useState({ message: '' });
 
-  // Default values for goal-state
+  // Default values for goal-state.
   const goal = {
     kcal: '',
     fat: '',
@@ -17,7 +14,7 @@ export default function EditGoals() {
     protein: '',
   };
 
-  // Get values for goal state from localStorage if available
+  // Get values for goal state from localStorage if available.
   if (typeof window !== 'undefined') {
     const loadedGoal = JSON.parse(window.localStorage.getItem('goals'));
     if (loadedGoal !== null) {
@@ -28,7 +25,7 @@ export default function EditGoals() {
     }
   }
 
-  // Set goal state values with default or updated from localStorage
+  // Set state with default or updated values.
   const [goalState, setGoalState] = useState({
     kcal: goal.kcal,
     fat: goal.fat,
@@ -36,11 +33,11 @@ export default function EditGoals() {
     protein: goal.protein,
   });
 
+  // Form validation
   const validateForm = (input) => {
     let validated;
-    // ADD ERROR MESSAGE-DISPLAYING FOR USER
 
-    // Only accept whole digits.
+    // Only accept whole digits
     if (/\D+/.test(input.goalKcal.value) || /\D+/.test(input.goalFat.value) || /\D+/.test(input.goalCarbs.value) || /\D+/.test(input.goalProtein.value)) {
       validated = false;
     } else {
@@ -50,7 +47,7 @@ export default function EditGoals() {
     return validated;
   };
 
-  // Take info from context and save into local storage.
+  // Form sumbission.
   const submitGoals = async (event) => {
     event.preventDefault();
 
@@ -58,7 +55,7 @@ export default function EditGoals() {
 
     if (isValid) {
       setError({ message: '' });
-      // localStorage.setItem('goals', JSON.stringify(goalContext.goals));
+
       localStorage.setItem('goals', JSON.stringify(goalState));
 
       setIsSaved(true);
@@ -67,9 +64,6 @@ export default function EditGoals() {
       }, 2000);
     } else {
       setError({ message: 'Only use whole numbers!' });
-      console.log(error.message.length);
-      // ADD ERROR MESSAGE-DISPLAYING FOR USER
-      // console.log('NOT SUBMITTED');
     }
   };
 
@@ -90,10 +84,6 @@ export default function EditGoals() {
               id="goalKcal"
               name="goalKcal"
               placeholder="min kcal per day"
-              // value={goalContext.goals.kcal}
-              // onChange={(e) => (goalContext.setGoals(
-              //   { ...goalContext.goals, kcal: e.target.value },
-              // ))}
               value={goalState.kcal}
               onChange={(e) => (setGoalState(
                 { ...goalState, kcal: e.target.value },
@@ -110,10 +100,6 @@ export default function EditGoals() {
               id="goalFat"
               name="goalFat"
               placeholder="min fats g/day"
-              // value={goalContext.goals.fat}
-              // onChange={(e) => (goalContext.setGoals(
-              //   { ...goalContext.goals, fat: e.target.value },
-              // ))}
               value={goalState.fat}
               onChange={(e) => (setGoalState(
                 { ...goalState, fat: e.target.value },
@@ -126,10 +112,6 @@ export default function EditGoals() {
               id="goalCarbs"
               name="goalCarbs"
               placeholder="min carbs g/day"
-              // value={goalContext.goals.carbs}
-              // onChange={(e) => (goalContext.setGoals(
-              //   { ...goalContext.goals, carbs: e.target.value },
-              // ))}
               value={goalState.carbs}
               onChange={(e) => (setGoalState(
                 { ...goalState, carbs: e.target.value },
@@ -142,10 +124,6 @@ export default function EditGoals() {
               id="goalProtein"
               name="goalProtein"
               placeholder="min protein g/day"
-              // value={goalContext.goals.protein}
-              // onChange={(e) => (goalContext.setGoals(
-              //   { ...goalContext.goals, protein: e.target.value },
-              // ))}
               value={goalState.protein}
               onChange={(e) => (setGoalState(
                 { ...goalState, protein: e.target.value },
@@ -155,7 +133,7 @@ export default function EditGoals() {
         </fieldset>
         <button type="submit">Save Goals</button>
         <p>{isSaved ? 'Saved!' : ''}</p>
-        {error.message.length > 1 ? <div>{error.message}</div> : ''}
+        <p>{error.message.length > 1 ? `${error.message}` : ''}</p>
       </form>
     </>
   );

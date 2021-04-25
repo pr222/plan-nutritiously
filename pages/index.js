@@ -22,23 +22,32 @@ export default function Home() {
       <Head>
         <title>Plan Nutritiously</title>
       </Head>
-      <h1>Welcome!</h1>
-      <p>Plan your groceries nutritiously</p>
+      {/* <h1>Welcome!</h1>
+      <p>Plan your groceries nutritiously</p> */}
+      <h1>Current goals</h1>
       <div>
-        Kcal Goal:
+        Kcal:
+        {' '}
         {goals.kcal}
+        {' per day'}
       </div>
       <div>
-        Fat Goal:
+        Fat:
+        {' '}
         {goals.fat}
+        {' g per day'}
       </div>
       <div>
-        Carbs Goal:
+        Carbs:
+        {' '}
         {goals.carbs}
+        {' g per day'}
       </div>
       <div>
-        Protein Goal:
+        Protein:
+        {' '}
         {goals.protein}
+        {' g per day'}
       </div>
 
       {/* {isConnected ? (
