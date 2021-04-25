@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from 'next/head';
 
 export default function Register() {
   return (
@@ -8,5 +8,5 @@ export default function Register() {
       </Head>
       <h1>Register a new account</h1>
     </>
-  )
+  );
 }

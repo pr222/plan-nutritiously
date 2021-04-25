@@ -1,6 +1,74 @@
 .container {
-  width: 50%;
-  margin: 20px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: min-content;
+  grid-template-areas: 
+  "logo   box1    box2    box3"
+  "lbar   main    main    main"
+  "footer  footer  footer  footer";
   padding: 5px;
-  background-color:rgb(250, 158, 255);
+  /* background-color:rgb(250, 158, 255); */
+}
+
+.logo {
+  grid-area: logo;
+  margin: 20px;
+  padding-bottom: 10px;
+
+}
+
+.logo h1, .logo h2 {
+  font-weight: 300;
+}
+
+.logo h1 {
+  font-size: 4.4rem;
+}
+
+.logo h2 {
+  margin-top: -20px;
+  margin-left: 6px;
+  font-size: 1.5rem;
+}
+
+.box1 {
+  grid-area: box1;
+}
+
+.box2 {
+  grid-area: box2;
+}
+
+.box3 {
+  grid-area: box3;
+}
+
+.leftSideBar {
+  grid-area: lbar;
+}
+
+.container main {
+  grid-area: main;
+  margin: 0px 20px;
+  margin-bottom: 50px;
+}
+
+.container main h1 {
+  margin: 5px;
+  padding: 0px;
+}
+
+.container footer {
+  grid-area: footer;
+  text-align: center;
+  font-style: italic;
+  font-size: smaller;
+  border-top: 1px solid;
+  padding: 15px;  
+}
+
+
+
+.footer a {
+  text-decoration: none;
 }
