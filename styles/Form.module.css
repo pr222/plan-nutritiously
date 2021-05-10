@@ -29,3 +29,9 @@
   margin-top: 5px;
   float: right;
 }
+
+.errorMessage {
+  font-size: 1rem;
+  font-weight: 700;
+  float: right;
+}
