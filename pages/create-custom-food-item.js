@@ -16,7 +16,7 @@ export default function CreateCustomFoodItem() {
 
   const submitCustomFoodItem = async (data) => {
     // event.preventDefault();
-    console.log(data.name);
+    // console.log(data.name);
 
     const foodItem = {
       custom: true,
@@ -32,7 +32,7 @@ export default function CreateCustomFoodItem() {
       },
     };
     // Food item to be added into storage.
-    console.log(foodItem);
+    // console.log(foodItem);
 
     let array;
     const prev = await localForage.getItem('foodItems');
@@ -47,8 +47,8 @@ export default function CreateCustomFoodItem() {
     array.push(foodItem);
 
     await localForage.setItem('foodItems', array);
-    const gotten = await localForage.getItem('foodItems');
-    console.log('GOT: ', gotten);
+    // const gotten = await localForage.getItem('foodItems');
+    // console.log('GOT: ', gotten);
 
     // SAVE TO A DB VIA FUTURE API
     // await fetch('/api/foodItems/create-foodItem', {
