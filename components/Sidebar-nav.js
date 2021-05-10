@@ -3,7 +3,7 @@ import style from '../styles/Sidebar-nav.module.css';
 
 const SidebarNav = () => (
   <nav className={style.nav}>
-    <ul>
+    <ul className={style.mainUl}>
       <li>
         <Link href="/">
           <a>Home</a>
@@ -14,6 +14,16 @@ const SidebarNav = () => (
           <a>Edit Goals</a>
         </Link>
       </li>
+      <li>
+        Food
+      </li>
+      <ul className={style.subList}>
+        <li className={style.subList}>
+          <Link href="/create-custom-food-item">
+            <a>Create Custom Food Item</a>
+          </Link>
+        </li>
+      </ul>
     </ul>
   </nav>
 );
