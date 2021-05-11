@@ -19,6 +19,7 @@ export default function CreateCustomFoodItem() {
     // console.log(data.name);
 
     const foodItem = {
+      id: Date.now(),
       custom: true,
       name: data.name,
       nutrition: {

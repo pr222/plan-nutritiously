@@ -35,16 +35,16 @@ export default function EditGoals() {
 
   // Form validation
   const validateForm = (input) => {
-    let validated;
+    let valid;
 
     // Only accept whole digits
     if (/\D+/.test(input.goalKcal.value) || /\D+/.test(input.goalFat.value) || /\D+/.test(input.goalCarbs.value) || /\D+/.test(input.goalProtein.value)) {
-      validated = false;
+      valid = false;
     } else {
-      validated = true;
+      valid = true;
     }
 
-    return validated;
+    return valid;
   };
 
   // Form sumbission.

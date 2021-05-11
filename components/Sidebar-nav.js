@@ -15,7 +15,9 @@ const SidebarNav = () => (
         </Link>
       </li>
       <li>
-        Food
+        <Link href="/food-items">
+          <a>My food items</a>
+        </Link>
       </li>
       <ul className={style.subList}>
         <li className={style.subList}>
