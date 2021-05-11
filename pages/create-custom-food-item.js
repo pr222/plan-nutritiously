@@ -1,24 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
 import style from '../styles/Form.module.css';
 
 export default function CreateCustomFoodItem() {
-  // const router = useRouter();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    // watch,
     formState: { errors },
   } = useForm();
 
   const submitCustomFoodItem = async (data) => {
-    // event.preventDefault();
-    // console.log(data.name);
-
     const foodItem = {
+      id: Date.now(),
       custom: true,
       name: data.name,
       nutrition: {
@@ -47,6 +44,8 @@ export default function CreateCustomFoodItem() {
     array.push(foodItem);
 
     await localForage.setItem('foodItems', array);
+
+    router.push('/');
     // const gotten = await localForage.getItem('foodItems');
     // console.log('GOT: ', gotten);
 
@@ -68,7 +67,6 @@ export default function CreateCustomFoodItem() {
         <title>Create Custom Food Item</title>
       </Head>
       <h1>Create a custom food item</h1>
-      {/* handleSubmit makes the validation before proceeding to submitCustomFoodItem */}
       <form onSubmit={handleSubmit(submitCustomFoodItem)} className={style.form}>
         <fieldset>
           <legend className={style.header}>Name</legend>
@@ -157,7 +155,8 @@ export default function CreateCustomFoodItem() {
             />
           </label>
         </fieldset>
-        {(errors.fats || errors.carbohydrates) && (
+        {(errors.fats || errors.carbohydrates
+        || errors.proteins || errors.lowCost) && (
           <p>Example of accepted format for numbers: 12.05</p>
         )}
         <button type="submit">Create Item</button>

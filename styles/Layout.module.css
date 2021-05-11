@@ -58,6 +58,14 @@
   padding: 0px;
 }
 
+.container main ul {
+  padding-left: 3rem;
+}
+
+.container main p {
+  padding-bottom: 1rem;
+}
+
 .container footer {
   grid-area: footer;
   text-align: center;
@@ -66,8 +74,6 @@
   border-top: 1px solid;
   padding: 15px;  
 }
-
-
 
 .footer a {
   text-decoration: none;

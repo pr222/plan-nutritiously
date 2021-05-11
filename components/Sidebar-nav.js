@@ -15,12 +15,14 @@ const SidebarNav = () => (
         </Link>
       </li>
       <li>
-        Food
+        <Link href="/food-items">
+          <a>My food items</a>
+        </Link>
       </li>
       <ul className={style.subList}>
         <li className={style.subList}>
-          <Link href="/create-custom-food-item">
-            <a>Create Custom Food Item</a>
+          <Link href="/add-food-item">
+            <a>Add</a>
           </Link>
         </li>
       </ul>

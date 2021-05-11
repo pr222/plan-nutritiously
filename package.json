@@ -24,6 +24,7 @@
   "author": "Pauliina Raitaniemi <pr222ja@student.lnu.se>",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^4.11.4",
     "localforage": "^1.9.0",
     "mongodb": "^3.6.6",
     "next": "^10.1.3",

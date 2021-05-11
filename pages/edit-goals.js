@@ -1,70 +1,44 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import localForage from 'localforage';
 import style from '../styles/Form.module.css';
 
 export default function EditGoals() {
   const [isSaved, setIsSaved] = useState(false);
-  const [error, setError] = useState({ message: '' });
 
-  // Default values for goal-state.
-  const goal = {
-    kcal: '',
-    fat: '',
-    carbs: '',
-    protein: '',
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  // Get values for goal state from localStorage if available.
-  if (typeof window !== 'undefined') {
-    const loadedGoal = JSON.parse(window.localStorage.getItem('goals'));
-    if (loadedGoal !== null) {
-      goal.kcal = loadedGoal.kcal;
-      goal.fat = loadedGoal.fat;
-      goal.carbs = loadedGoal.carbs;
-      goal.protein = loadedGoal.protein;
-    }
-  }
+  useEffect(() => {
+    const getItems = async () => {
+      const res = await localForage.getItem('goals');
+      if (res !== null) {
+        reset(res);
+      }
+    };
+    getItems();
+  }, [reset]);
 
-  // Set state with default or updated values.
-  const [goalState, setGoalState] = useState({
-    kcal: goal.kcal,
-    fat: goal.fat,
-    carbs: goal.carbs,
-    protein: goal.protein,
-  });
+  const submitGoals = async (data) => {
+    const goals = {
+      kcal: data.kcal,
+      fats: data.fats,
+      carbohydrates: data.carbohydrates,
+      proteins: data.proteins,
+    };
 
-  // Form validation
-  const validateForm = (input) => {
-    let validated;
+    await localForage.setItem('goals', goals);
 
-    // Only accept whole digits
-    if (/\D+/.test(input.goalKcal.value) || /\D+/.test(input.goalFat.value) || /\D+/.test(input.goalCarbs.value) || /\D+/.test(input.goalProtein.value)) {
-      validated = false;
-    } else {
-      validated = true;
-    }
-
-    return validated;
-  };
-
-  // Form sumbission.
-  const submitGoals = async (event) => {
-    event.preventDefault();
-
-    const isValid = validateForm(event.target);
-
-    if (isValid) {
-      setError({ message: '' });
-
-      localStorage.setItem('goals', JSON.stringify(goalState));
-
-      setIsSaved(true);
-      setTimeout(() => {
-        setIsSaved(false);
-      }, 2000);
-    } else {
-      setError({ message: 'Only use whole numbers!' });
-    }
+    setIsSaved(true);
+    setTimeout(() => {
+      setIsSaved(false);
+    }, 2000);
   };
 
   return (
@@ -75,7 +49,7 @@ export default function EditGoals() {
 
       <h1>Edit your nutrition goals</h1>
 
-      <form onSubmit={submitGoals} className={style.form}>
+      <form onSubmit={handleSubmit(submitGoals)} className={style.form}>
         <fieldset>
           <legend className={style.header}>Calories</legend>
           <label htmlFor="goalKcal">
@@ -84,10 +58,9 @@ export default function EditGoals() {
               id="goalKcal"
               name="goalKcal"
               placeholder="min kcal per day"
-              value={goalState.kcal}
-              onChange={(e) => (setGoalState(
-                { ...goalState, kcal: e.target.value },
-              ))}
+              {...register('kcal', {
+                validate: (value) => /\D+/.test(value) !== true,
+              })}
             />
           </label>
         </fieldset>
@@ -100,10 +73,9 @@ export default function EditGoals() {
               id="goalFat"
               name="goalFat"
               placeholder="min fats g/day"
-              value={goalState.fat}
-              onChange={(e) => (setGoalState(
-                { ...goalState, fat: e.target.value },
-              ))}
+              {...register('fats', {
+                validate: (value) => /\D+/.test(value) !== true,
+              })}
             />
           </label>
           <label htmlFor="goalCarbs">
@@ -112,10 +84,9 @@ export default function EditGoals() {
               id="goalCarbs"
               name="goalCarbs"
               placeholder="min carbs g/day"
-              value={goalState.carbs}
-              onChange={(e) => (setGoalState(
-                { ...goalState, carbs: e.target.value },
-              ))}
+              {...register('carbohydrates', {
+                validate: (value) => /\D+/.test(value) !== true,
+              })}
             />
           </label>
           <label htmlFor="goalProtein">
@@ -124,16 +95,18 @@ export default function EditGoals() {
               id="goalProtein"
               name="goalProtein"
               placeholder="min protein g/day"
-              value={goalState.protein}
-              onChange={(e) => (setGoalState(
-                { ...goalState, protein: e.target.value },
-              ))}
+              {...register('proteins', {
+                validate: (value) => /\D+/.test(value) !== true,
+              })}
             />
           </label>
         </fieldset>
         <button type="submit">Save Goals</button>
         <p>{isSaved ? 'Saved!' : ''}</p>
-        <p>{error.message.length > 1 ? `${error.message}` : ''}</p>
+        {(errors.kcal || errors.fats || errors.carbohydrates
+        || errors.proteins) && (
+          <p>Only use whole numbers!</p>
+        )}
       </form>
     </>
   );
