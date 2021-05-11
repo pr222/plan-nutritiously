@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
 import style from '../styles/Form.module.css';
 
 export default function CreateCustomFoodItem() {
-  // const router = useRouter();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -48,6 +48,8 @@ export default function CreateCustomFoodItem() {
     array.push(foodItem);
 
     await localForage.setItem('foodItems', array);
+
+    router.push('/');
     // const gotten = await localForage.getItem('foodItems');
     // console.log('GOT: ', gotten);
 
@@ -158,7 +160,8 @@ export default function CreateCustomFoodItem() {
             />
           </label>
         </fieldset>
-        {(errors.fats || errors.carbohydrates) && (
+        {(errors.fats || errors.carbohydrates
+        || errors.proteins || errors.lowCost) && (
           <p>Example of accepted format for numbers: 12.05</p>
         )}
         <button type="submit">Create Item</button>
