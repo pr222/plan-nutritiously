@@ -10,14 +10,10 @@ export default function CreateCustomFoodItem() {
   const {
     register,
     handleSubmit,
-    // watch,
     formState: { errors },
   } = useForm();
 
   const submitCustomFoodItem = async (data) => {
-    // event.preventDefault();
-    // console.log(data.name);
-
     const foodItem = {
       id: Date.now(),
       custom: true,
@@ -71,7 +67,6 @@ export default function CreateCustomFoodItem() {
         <title>Create Custom Food Item</title>
       </Head>
       <h1>Create a custom food item</h1>
-      {/* handleSubmit makes the validation before proceeding to submitCustomFoodItem */}
       <form onSubmit={handleSubmit(submitCustomFoodItem)} className={style.form}>
         <fieldset>
           <legend className={style.header}>Name</legend>

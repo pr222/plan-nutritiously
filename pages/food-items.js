@@ -11,9 +11,7 @@ export default function FoodItems() {
       setFoodItems(res);
     };
 
-    // if (typeof window !== 'undefined') {
     getItems();
-    // }
   }, []);
 
   return (
