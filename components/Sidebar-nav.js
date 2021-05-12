@@ -15,7 +15,7 @@ const SidebarNav = () => (
         </Link>
       </li>
       <li>
-        <Link href="/food/food-items">
+        <Link href="/foodItems/">
           <a>My food items</a>
         </Link>
       </li>
