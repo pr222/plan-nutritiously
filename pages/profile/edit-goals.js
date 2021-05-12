@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
-import style from '../styles/Form.module.css';
+import style from '../../styles/Form.module.css';
 
 export default function EditGoals() {
   const [isSaved, setIsSaved] = useState(false);
