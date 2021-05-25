@@ -6,21 +6,21 @@ import localForage from 'localforage';
 
 // export default function Home({ isConnected }) {
 export default function Home() {
-  const [foodItems, setFoodItems] = useState([]);
+  // const [foodItems, setFoodItems] = useState([]);
   const [goals, setGoals] = useState([]);
 
   useEffect(() => {
-    const getItems = async () => {
-      const res = await localForage.getItem('foodItems');
-      setFoodItems(res);
-    };
+    // const getItems = async () => {
+    //   const res = await localForage.getItem('foodItems');
+    //   setFoodItems(res);
+    // };
 
     const getGoals = async () => {
       const res = await localForage.getItem('goals');
       setGoals(res);
     };
 
-    getItems();
+    // getItems();
     getGoals();
   }, []);
 
@@ -32,7 +32,7 @@ export default function Home() {
       <h1>Welcome!</h1>
       <p>Plan your groceries nutritiously</p>
 
-      <h2>My Food Items</h2>
+      {/* <h2>My Food Items</h2>
       {foodItems ? (
         <ul>
           {foodItems.map((item) => (
@@ -41,7 +41,7 @@ export default function Home() {
             </li>
           ))}
         </ul>
-      ) : <p>No food items added yet.</p>}
+      ) : <p>No food items added yet.</p>} */}
 
       <h2>Current goals</h2>
       {goals ? (

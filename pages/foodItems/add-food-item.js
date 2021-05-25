@@ -12,7 +12,7 @@ export default function AddFoodItem() {
       <input type="text" /> */}
       <h1>Add</h1>
       <div>
-        <Link href="/food/create-custom-food-item">
+        <Link href="/foodItems/create-custom-food-item">
           <a>Create a custom Food Item</a>
         </Link>
       </div>

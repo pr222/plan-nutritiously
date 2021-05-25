@@ -25,7 +25,7 @@ export default function FoodItems() {
         <ul>
           {foodItems.map((item) => (
             <li key={item.id}>
-              <Link href={`/foodItems/${item.id}`}>
+              <Link href={`/foodItems/details/${item.id}`}>
                 <a>{item.name}</a>
               </Link>
               {' - '}
