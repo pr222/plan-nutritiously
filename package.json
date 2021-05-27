@@ -6,8 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "next -p 3002",
-    "debug": "NODE_OPTIONS='--inspect' next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start -p 3000",
     "lint": "npx eslint ./ --ext js,jsx || exit 0",
     "lint:fix": "npx eslint ./ --fix --ext js,jsx || exit 0",
