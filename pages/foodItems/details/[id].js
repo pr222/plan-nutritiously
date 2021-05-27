@@ -56,16 +56,16 @@ export default function FoodItemDetails() {
               {` ${foodItem.cost.low}`}
             </li>
           </ul>
+          <button type="button">
+            <Link href={`/foodItems/edit/${itemId}`}>
+              <a>Edit</a>
+            </Link>
+          </button>
         </>
       ) : <p>Loading...</p>}
       {/* {foodItems.find((item) => (
         item.id === id
       ))} */}
-      <button type="button">
-        <Link href={`/foodItems/edit/${itemId}`}>
-          <a>Edit</a>
-        </Link>
-      </button>
       <button type="button" onClick={goBack}>Back</button>
     </>
   );

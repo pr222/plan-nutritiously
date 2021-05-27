@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
 import style from '../../styles/Form.module.css';
-import TextInput from '../../components/TextInput';
 
 export default function EditGoals() {
   const [isSaved, setIsSaved] = useState(false);
@@ -27,7 +26,6 @@ export default function EditGoals() {
   }, [reset]);
 
   const submitGoals = async (data) => {
-    console.log(data);
     const goals = {
       kcal: data.kcal,
       fats: data.fats,
@@ -54,17 +52,6 @@ export default function EditGoals() {
       <form onSubmit={handleSubmit(submitGoals)} className={style.form}>
         <fieldset>
           <legend className={style.header}>Calories</legend>
-
-          <TextInput
-            formName="testGoal"
-            uiName="Test Goal"
-            placeholder="test-amount g/day"
-            {...register('test', {
-              validate: (value) => /\D+/.test(value) !== true,
-            })}
-          />
-          {errors.test && <p className={style.errorMessage}>Test is in error!</p>}
-
           <label htmlFor="goalKcal">
             kcal
             <input
@@ -76,7 +63,6 @@ export default function EditGoals() {
               })}
             />
           </label>
-
         </fieldset>
 
         <fieldset>

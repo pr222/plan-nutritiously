@@ -28,10 +28,6 @@ export default function FoodItems() {
               <Link href={`/foodItems/details/${item.id}`}>
                 <a>{item.name}</a>
               </Link>
-              {' - '}
-              <Link href={`/foodItems/edit/${item.id}`}>
-                <a>Edit</a>
-              </Link>
             </li>
           ))}
         </ul>
