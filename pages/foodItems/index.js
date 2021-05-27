@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import localForage from 'localforage';
 
@@ -24,7 +25,9 @@ export default function FoodItems() {
         <ul>
           {foodItems.map((item) => (
             <li key={item.id}>
-              {item.name}
+              <Link href={`/foodItems/details/${item.id}`}>
+                <a>{item.name}</a>
+              </Link>
             </li>
           ))}
         </ul>

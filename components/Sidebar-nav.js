@@ -10,18 +10,18 @@ const SidebarNav = () => (
         </Link>
       </li>
       <li>
-        <Link href="/edit-goals">
+        <Link href="/profile/edit-goals">
           <a>Edit Goals</a>
         </Link>
       </li>
       <li>
-        <Link href="/food-items">
+        <Link href="/foodItems/">
           <a>My food items</a>
         </Link>
       </li>
       <ul className={style.subList}>
         <li className={style.subList}>
-          <Link href="/add-food-item">
+          <Link href="/foodItems/add-food-item">
             <a>Add</a>
           </Link>
         </li>

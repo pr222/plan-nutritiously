@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
-import style from '../styles/Form.module.css';
+import style from '../../styles/Form.module.css';
 
 export default function CreateCustomFoodItem() {
   const router = useRouter();

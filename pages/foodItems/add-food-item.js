@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 
-export default function Login() {
+export default function AddFoodItem() {
   return (
     <>
       <Head>
@@ -12,7 +12,7 @@ export default function Login() {
       <input type="text" /> */}
       <h1>Add</h1>
       <div>
-        <Link href="/create-custom-food-item">
+        <Link href="/foodItems/create-custom-food-item">
           <a>Create a custom Food Item</a>
         </Link>
       </div>
