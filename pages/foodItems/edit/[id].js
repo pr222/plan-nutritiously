@@ -8,13 +8,12 @@ import style from '../../../styles/Form.module.css';
 
 export default function EditItem() {
   const router = useRouter();
-
   const goBack = () => {
     router.back();
   };
 
   const itemId = Number(router.query.id);
-  const [foodItems, setFoodItems] = useState([]);
+  const [currentItem, setCurrentItem] = useState({});
 
   const {
     register,
@@ -23,7 +22,30 @@ export default function EditItem() {
     formState: { errors },
   } = useForm();
 
-  const foodItem = foodItems.find((it) => it.id === Number(itemId));
+  useEffect(() => {
+    const getItems = async () => {
+      const res = await localForage.getItem('foodItems');
+      if (res !== null) {
+        // setFoodItems(res);
+
+        const foodItem = res.find((elem) => elem.id === itemId);
+
+        if (foodItem) {
+          setCurrentItem(foodItem);
+
+          reset({
+            name: foodItem.name,
+            kcal: foodItem.nutrition.kcal,
+            fats: foodItem.nutrition.fats,
+            carbohydrates: foodItem.nutrition.carbohydrates,
+            proteins: foodItem.nutrition.proteins,
+            lowCost: foodItem.cost.low,
+          });
+        }
+      }
+    };
+    getItems();
+  }, [reset, itemId]);
 
   const replaceInStorage = async (newItem) => {
     const oldItems = await localForage.getItem('foodItems');
@@ -37,31 +59,19 @@ export default function EditItem() {
     router.push('/foodItems');
   };
 
-  useEffect(() => {
-    const getItems = async () => {
-      const res = await localForage.getItem('foodItems');
-      if (res !== null) {
-        setFoodItems(res);
-        const item = res.find((elem) => elem.id === itemId);
-        reset(item);
-      }
-    };
-    getItems();
-  }, [reset, itemId]);
-
   const submitEditedFoodItem = async (data) => {
     const updatedFoodItem = {
-      id: foodItem.id,
-      custom: foodItem.custom,
+      id: currentItem.id,
+      custom: currentItem.custom,
       name: data.name,
       nutrition: {
-        kcal: data.nutrition.kcal,
-        fats: data.nutrition.fats,
-        carbohydrates: data.nutrition.carbohydrates,
-        proteins: data.nutrition.proteins,
+        kcal: data.kcal,
+        fats: data.fats,
+        carbohydrates: data.carbohydrates,
+        proteins: data.proteins,
       },
       cost: {
-        low: data.cost.low,
+        low: data.lowCost,
       },
     };
 
@@ -74,7 +84,7 @@ export default function EditItem() {
         <title>Edit Food Item</title>
       </Head>
 
-      {foodItem ? (
+      {currentItem ? (
         <>
           <h1>Edit a food item</h1>
           <form onSubmit={handleSubmit(submitEditedFoodItem)} className={style.form}>
@@ -101,7 +111,7 @@ export default function EditItem() {
                   id="kcal"
                   name="kcal"
                   placeholder="kcal per 100g"
-                  {...register('nutrition.kcal', {
+                  {...register('kcal', {
                     validate: (value) => /\D+/.test(value) !== true,
                   })}
                 />
@@ -113,7 +123,7 @@ export default function EditItem() {
                   id="fats"
                   name="fats"
                   placeholder="fats per 100g"
-                  {...register('nutrition.fats', {
+                  {...register('fats', {
                     validate: {
                       positive: (value) => (Number(value) > 0) || value.length < 1,
                     },
@@ -122,12 +132,13 @@ export default function EditItem() {
               </label>
               <label htmlFor="carbohydrates">
                 Carbohydrates
-                {errors.carbohydrates && <p className={style.errorMessage}>Invalid number!</p>}
+                {errors.carbohydrates
+                && <p className={style.errorMessage}>Invalid number!</p>}
                 <input
                   id="carbohydrates"
                   name="carbohydrates"
                   placeholder="carbohydrates per 100g"
-                  {...register('nutrition.carbohydrates', {
+                  {...register('carbohydrates', {
                     validate: {
                       positive: (value) => (Number(value) > 0) || value.length < 1,
                     },
@@ -141,7 +152,7 @@ export default function EditItem() {
                   id="proteins"
                   name="proteins"
                   placeholder="proteins per 100g"
-                  {...register('nutrition.proteins', {
+                  {...register('proteins', {
                     validate: {
                       positive: (value) => (Number(value) > 0) || value.length < 1,
                     },
@@ -158,7 +169,7 @@ export default function EditItem() {
                   id="lowCost"
                   name="lowCost"
                   placeholder="low cost per kg"
-                  {...register('cost.low', {
+                  {...register('lowCost', {
                     validate: {
                       positive: (value) => (Number(value) > 0) || value.length < 1,
                     },
