@@ -28,8 +28,6 @@ export default function CreateCustomFoodItem() {
         low: data.lowCost,
       },
     };
-    // Food item to be added into storage.
-    // console.log(foodItem);
 
     let array;
     const prev = await localForage.getItem('foodItems');

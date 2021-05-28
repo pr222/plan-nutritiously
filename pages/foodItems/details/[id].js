@@ -33,7 +33,7 @@ export default function FoodItemDetails() {
       {foodItem ? (
         <>
           <h1>{foodItem.name}</h1>
-          <h2>Details</h2>
+          <h2>Nutrition per 100g</h2>
           <ul>
             <li>
               Kcal:
@@ -51,22 +51,22 @@ export default function FoodItemDetails() {
               Proteins:
               {` ${foodItem.nutrition.proteins}`}
             </li>
+          </ul>
+          <h2>Prices</h2>
+          <ul>
             <li>
-              Cost:
+              Low cost per kg:
               {` ${foodItem.cost.low}`}
             </li>
           </ul>
+          <button type="button" onClick={goBack}>Back</button>
           <button type="button">
             <Link href={`/foodItems/edit/${itemId}`}>
-              <a>Edit</a>
+              <a>Edit Food Item</a>
             </Link>
           </button>
         </>
       ) : <p>Loading...</p>}
-      {/* {foodItems.find((item) => (
-        item.id === id
-      ))} */}
-      <button type="button" onClick={goBack}>Back</button>
     </>
   );
 }
