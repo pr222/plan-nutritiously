@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
+import Food from '../../../classes/Food';
 import style from '../../../styles/Form.module.css';
 
 export default function EditItem() {
@@ -26,20 +27,20 @@ export default function EditItem() {
     const getItems = async () => {
       const res = await localForage.getItem('foodItems');
       if (res !== null) {
-        // setFoodItems(res);
-
         const foodItem = res.find((elem) => elem.id === itemId);
 
         if (foodItem) {
-          setCurrentItem(foodItem);
+          const food = Object.assign(new Food(), foodItem);
+
+          setCurrentItem(food);
 
           reset({
-            name: foodItem.name,
-            kcal: foodItem.nutrition.kcal,
-            fats: foodItem.nutrition.fats,
-            carbohydrates: foodItem.nutrition.carbohydrates,
-            proteins: foodItem.nutrition.proteins,
-            lowCost: foodItem.cost.low,
+            name: food.name,
+            kcal: food.kcal,
+            fats: food.fats,
+            carbohydrates: food.carbohydrates,
+            proteins: food.proteins,
+            lowCost: food.lowCost,
           });
         }
       }
@@ -55,27 +56,33 @@ export default function EditItem() {
     newItems.splice(itemIndex, 1, newItem);
 
     await localForage.setItem('foodItems', newItems);
-
-    router.push('/foodItems');
   };
 
   const submitEditedFoodItem = async (data) => {
-    const updatedFoodItem = {
-      id: currentItem.id,
-      custom: currentItem.custom,
-      name: data.name,
-      nutrition: {
-        kcal: data.kcal,
-        fats: data.fats,
-        carbohydrates: data.carbohydrates,
-        proteins: data.proteins,
-      },
-      cost: {
-        low: data.lowCost,
-      },
-    };
+    const res = await localForage.getItem('foodItems');
+    if (res !== null) {
+      const foodItem = res.find((elem) => elem.id === itemId);
 
-    replaceInStorage(updatedFoodItem);
+      if (foodItem) {
+        const food = Object.assign(new Food(), foodItem);
+
+        try {
+          food.name = data.name;
+          food.kcal = data.kcal;
+          food.fats = data.fats;
+          food.carbohydrates = data.carbohydrates;
+          food.proteins = data.proteins;
+          food.lowCost = data.lowCost;
+        } catch (error) {
+          console.log(error);
+          console.log(error.message);
+        }
+
+        replaceInStorage(food);
+
+        router.push('/foodItems');
+      }
+    }
   };
 
   return (
@@ -125,7 +132,7 @@ export default function EditItem() {
                   placeholder="fats per 100g"
                   {...register('fats', {
                     validate: {
-                      positive: (value) => (Number(value) > 0) || value.length < 1,
+                      positive: (value) => (Number(value) >= 0) || value.length < 1,
                     },
                   })}
                 />
@@ -140,7 +147,7 @@ export default function EditItem() {
                   placeholder="carbohydrates per 100g"
                   {...register('carbohydrates', {
                     validate: {
-                      positive: (value) => (Number(value) > 0) || value.length < 1,
+                      positive: (value) => (Number(value) >= 0) || value.length < 1,
                     },
                   })}
                 />
@@ -154,7 +161,7 @@ export default function EditItem() {
                   placeholder="proteins per 100g"
                   {...register('proteins', {
                     validate: {
-                      positive: (value) => (Number(value) > 0) || value.length < 1,
+                      positive: (value) => (Number(value) >= 0) || value.length < 1,
                     },
                   })}
                 />
@@ -171,7 +178,7 @@ export default function EditItem() {
                   placeholder="low cost per kg"
                   {...register('lowCost', {
                     validate: {
-                      positive: (value) => (Number(value) > 0) || value.length < 1,
+                      positive: (value) => (Number(value) >= 0) || value.length < 1,
                     },
                   })}
                 />

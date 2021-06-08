@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
+import Food from '../../classes/Food';
 import style from '../../styles/Form.module.css';
 
 export default function CreateCustomFoodItem() {
@@ -14,20 +15,27 @@ export default function CreateCustomFoodItem() {
   } = useForm();
 
   const submitCustomFoodItem = async (data) => {
-    const foodItem = {
-      id: Date.now(),
-      custom: true,
-      name: data.name,
-      nutrition: {
-        kcal: data.kcal,
-        fats: data.fats,
-        carbohydrates: data.carbohydrates,
-        proteins: data.proteins,
-      },
-      cost: {
-        low: data.lowCost,
-      },
-    };
+    const food = new Food(data.name);
+
+    food.kcal = data.kcal;
+    food.fats = data.fats;
+    food.carbohydrates = data.carbohydrates;
+    food.proteins = data.proteins;
+    food.lowCost = data.lowCost;
+    // const foodItem = {
+    //   id: Date.now(),
+    //   custom: true,
+    //   name: data.name,
+    //   nutrition: {
+    //     kcal: data.kcal,
+    //     fats: data.fats,
+    //     carbohydrates: data.carbohydrates,
+    //     proteins: data.proteins,
+    //   },
+    //   cost: {
+    //     low: data.lowCost,
+    //   },
+    // };
 
     let array;
     const prev = await localForage.getItem('foodItems');
@@ -39,7 +47,8 @@ export default function CreateCustomFoodItem() {
       array = prev;
     }
 
-    array.push(foodItem);
+    array.push(food);
+    // array.push(foodItem);
 
     await localForage.setItem('foodItems', array);
 
@@ -102,7 +111,7 @@ export default function CreateCustomFoodItem() {
               placeholder="fats per 100g"
               {...register('fats', {
                 validate: {
-                  positive: (value) => (Number(value) > 0) || value.length < 1,
+                  positive: (value) => (Number(value) >= 0) || value.length < 1,
                 },
               })}
             />
@@ -116,7 +125,7 @@ export default function CreateCustomFoodItem() {
               placeholder="carbohydrates per 100g"
               {...register('carbohydrates', {
                 validate: {
-                  positive: (value) => (Number(value) > 0) || value.length < 1,
+                  positive: (value) => (Number(value) >= 0) || value.length < 1,
                 },
               })}
             />
@@ -130,7 +139,7 @@ export default function CreateCustomFoodItem() {
               placeholder="proteins per 100g"
               {...register('proteins', {
                 validate: {
-                  positive: (value) => (Number(value) > 0) || value.length < 1,
+                  positive: (value) => (Number(value) >= 0) || value.length < 1,
                 },
               })}
             />
@@ -147,7 +156,7 @@ export default function CreateCustomFoodItem() {
               placeholder="low cost per kg"
               {...register('lowCost', {
                 validate: {
-                  positive: (value) => (Number(value) > 0) || value.length < 1,
+                  positive: (value) => (Number(value) >= 0) || value.length < 1,
                 },
               })}
             />
