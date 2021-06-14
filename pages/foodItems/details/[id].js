@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import localForage from 'localforage';
+import FoodPer100g from '../../../classes/FoodPer100g';
 
 export default function FoodItemDetails() {
   const router = useRouter();
@@ -18,7 +19,8 @@ export default function FoodItemDetails() {
     getItems();
   }, []);
 
-  const foodItem = foodItems.find((it) => it.id === Number(itemId));
+  const food = foodItems.find((it) => it.id === Number(itemId));
+  const foodItem = Object.assign(new FoodPer100g(), food);
 
   const goBack = () => {
     router.back();
@@ -37,28 +39,28 @@ export default function FoodItemDetails() {
           <ul>
             <li>
               Kcal:
-              {` ${foodItem.nutrition.kcal}`}
+              {` ${foodItem.kcal}`}
             </li>
             <li>
               Fats:
-              {` ${foodItem.nutrition.fats}`}
+              {` ${foodItem.fats}`}
             </li>
             <li>
               Carbohydrates:
-              {` ${foodItem.nutrition.carbohydrates}`}
+              {` ${foodItem.carbohydrates}`}
             </li>
             <li>
               Proteins:
-              {` ${foodItem.nutrition.proteins}`}
+              {` ${foodItem.proteins}`}
             </li>
           </ul>
           <h2>Prices</h2>
-          <ul>
+          {/* <ul>
             <li>
               Low cost per kg:
               {` ${foodItem.cost.low}`}
             </li>
-          </ul>
+          </ul> */}
           <button type="button" onClick={goBack}>Back</button>
           <button type="button">
             <Link href={`/foodItems/edit/${itemId}`}>

@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
-import Food from '../../classes/Food';
 import style from '../../styles/Form.module.css';
+import FoodPer100g from '../../classes/FoodPer100g';
 
 export default function CreateCustomFoodItem() {
   const router = useRouter();
@@ -15,27 +15,13 @@ export default function CreateCustomFoodItem() {
   } = useForm();
 
   const submitCustomFoodItem = async (data) => {
-    const food = new Food(data.name);
+    const food = new FoodPer100g(data.name);
 
+    food.name = data.name;
     food.kcal = data.kcal;
     food.fats = data.fats;
     food.carbohydrates = data.carbohydrates;
     food.proteins = data.proteins;
-    food.lowCost = data.lowCost;
-    // const foodItem = {
-    //   id: Date.now(),
-    //   custom: true,
-    //   name: data.name,
-    //   nutrition: {
-    //     kcal: data.kcal,
-    //     fats: data.fats,
-    //     carbohydrates: data.carbohydrates,
-    //     proteins: data.proteins,
-    //   },
-    //   cost: {
-    //     low: data.lowCost,
-    //   },
-    // };
 
     let array;
     const prev = await localForage.getItem('foodItems');
@@ -48,13 +34,10 @@ export default function CreateCustomFoodItem() {
     }
 
     array.push(food);
-    // array.push(foodItem);
 
     await localForage.setItem('foodItems', array);
 
     router.push('/');
-    // const gotten = await localForage.getItem('foodItems');
-    // console.log('GOT: ', gotten);
 
     // SAVE TO A DB VIA FUTURE API
     // await fetch('/api/foodItems/create-foodItem', {
@@ -145,7 +128,7 @@ export default function CreateCustomFoodItem() {
             />
           </label>
         </fieldset>
-        <fieldset>
+        {/* <fieldset>
           <legend className={style.header}>Prices</legend>
           <label htmlFor="lowCost">
             Low Cost
@@ -161,9 +144,9 @@ export default function CreateCustomFoodItem() {
               })}
             />
           </label>
-        </fieldset>
+        </fieldset> */}
         {(errors.fats || errors.carbohydrates
-        || errors.proteins || errors.lowCost) && (
+        || errors.proteins || {/* errors.lowCost */}) && (
           <p>Example of accepted format for numbers: 12.05</p>
         )}
         <button type="submit">Create Item</button>

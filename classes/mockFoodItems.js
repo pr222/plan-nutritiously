@@ -1,34 +1,35 @@
-import FoodPer100g from '../classes/FoodPer100g';
+import FoodPer100g from './FoodPer100g';
+import FoodItem from './FoodItem';
 
-const mockFoods = [
-  new FoodPer100g({
+const mockFoodItems = [
+  new FoodItem(new FoodPer100g({
     name: 'Tomato',
     kcal: 12,
     fats: 0.2,
     carbohydrates: 3.9,
     proteins: 0.9,
-  }),
-  new FoodPer100g({
+  }), 80),
+  new FoodItem(new FoodPer100g({
     name: 'Egg',
     kcal: 155,
     fats: 11,
     carbohydrates: 1.1,
     proteins: 13,
-  }),
-  new FoodPer100g({
+  }), 147),
+  new FoodItem(new FoodPer100g({
     name: 'Oil',
     kcal: 884,
     fats: 100,
     carbohydrates: 0,
     proteins: 0,
-  }),
-  new FoodPer100g({
+  }), 14),
+  new FoodItem(new FoodPer100g({
     name: 'Rice',
     kcal: 130,
     fats: 0.3,
     carbohydrates: 28,
     proteins: 2.7,
-  }),
+  }), 150),
 ];
 
-export { mockFoods as default };
+export { mockFoodItems as default };

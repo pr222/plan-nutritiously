@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
-import Food from '../../../classes/Food';
 import style from '../../../styles/Form.module.css';
+import FoodPer100g from '../../../classes/FoodPer100g';
 
 export default function EditItem() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function EditItem() {
         const foodItem = res.find((elem) => elem.id === itemId);
 
         if (foodItem) {
-          const food = Object.assign(new Food(), foodItem);
+          const food = Object.assign(new FoodPer100g(), foodItem);
 
           setCurrentItem(food);
 
@@ -40,7 +40,6 @@ export default function EditItem() {
             fats: food.fats,
             carbohydrates: food.carbohydrates,
             proteins: food.proteins,
-            lowCost: food.lowCost,
           });
         }
       }
@@ -64,7 +63,7 @@ export default function EditItem() {
       const foodItem = res.find((elem) => elem.id === itemId);
 
       if (foodItem) {
-        const food = Object.assign(new Food(), foodItem);
+        const food = Object.assign(new FoodPer100g(), foodItem);
 
         try {
           food.name = data.name;
@@ -72,7 +71,6 @@ export default function EditItem() {
           food.fats = data.fats;
           food.carbohydrates = data.carbohydrates;
           food.proteins = data.proteins;
-          food.lowCost = data.lowCost;
         } catch (error) {
           console.log(error);
           console.log(error.message);
@@ -167,7 +165,7 @@ export default function EditItem() {
                 />
               </label>
             </fieldset>
-            <fieldset>
+            {/* <fieldset>
               <legend className={style.header}>Prices</legend>
               <label htmlFor="lowCost">
                 Low Cost
@@ -183,9 +181,9 @@ export default function EditItem() {
                   })}
                 />
               </label>
-            </fieldset>
+            </fieldset> */}
             {(errors.fats || errors.carbohydrates
-            || errors.proteins || errors.lowCost) && (
+            || errors.proteins) && (
               <p>Example of accepted format for numbers: 12.05</p>
             )}
             <button type="submit">Update Item</button>
