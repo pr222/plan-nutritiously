@@ -3,36 +3,20 @@
  *
  * @param {number} per100g - The nutrition-data per 100g.
  * @param {number} amount - The amount of nutrient in grams.
+ * @throws {error} - when arguments cannot be converted to numbers, is NaN or a negative number
  * @returns {number} - the calculated result.
  */
 const calculateNutients = (per100g, amount) => {
-  let nutrientInfo = per100g;
-  let ingredientAmount = amount;
+  // Try converting to a number.
+  const nutrientInfo = Number(per100g);
+  const ingredientAmount = Number(amount);
 
   if (typeof nutrientInfo !== 'number' || typeof ingredientAmount !== 'number') {
-    // Empty strings gets assigned to 0, othervise throw error.
-    if (typeof nutrientInfo === 'string' || typeof ingredientAmount === 'string') {
-      if (typeof nutrientInfo === 'string') {
-        if (nutrientInfo.length === 0) {
-          nutrientInfo = 0;
-        } else {
-          throw new Error('One of the arguments is not a number');
-        }
-      }
-      if (typeof ingredientAmount === 'string') {
-        if (ingredientAmount.length === 0) {
-          ingredientAmount = 0;
-        } else {
-          throw new Error('One of the arguments is not a number');
-        }
-      }
-    } else {
-      throw new Error('One of the arguments is not a number');
-    }
+    throw new Error('One of the arguments cannot be converted to a useful number');
   }
 
   if (Number.isNaN(nutrientInfo) || Number.isNaN(ingredientAmount)) {
-    throw new Error('One of the arguments is not a number');
+    throw new Error('One of the arguments cannot be converted to a useful number');
   }
 
   if (nutrientInfo < 0 || ingredientAmount < 0) {

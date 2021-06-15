@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
 import style from '../../styles/Form.module.css';
-import FoodPer100g from '../../classes/FoodPer100g';
+import FoodPer100g from '../../../classes/FoodPer100g';
 
 export default function CreateCustomFoodItem() {
   const router = useRouter();
