@@ -1,8 +1,11 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import localForage from 'localforage';
+import MealPlan from '../classes/MealPlan';
 // import FoodPer100g from '../classes/FoodPer100g';
-// import mockFoodsPer100g from '../tests/mockFoodsPer100g';
+// import mockFoodItems from '../mocks/mockFoodItems';
+import mockIngredients from '../mocks/mockIngredients';
+import Ingredient from '../classes/Ingredient';
 // import FoodItem from '../classes/FoodItem';
 // import PropTypes from 'prop-types';
 // import connectToDatabase from '../middleware/mongodb';
@@ -27,34 +30,19 @@ export default function Home() {
     getGoals();
   }, []);
 
-  // const food = new FoodPer100g();
-  // console.log(food);
-  // const tomato = {
-  //   name: 'Tomato',
-  //   kcal: 12,
-  //   fats: 0.2,
-  //   carbohydrates: 3.9,
-  //   proteins: 0.9,
-  // };
-  // food.setInformation(tomato);
-  // console.log(food);
+  const mealPlan = new MealPlan('My Breakkie');
+  mealPlan.addIngredient(mockIngredients[0]);
+  mealPlan.addIngredient(mockIngredients[1]);
+  mealPlan.addIngredient(mockIngredients[3]);
+  console.log('THREE ADDED', mealPlan);
 
-  // const item = new FoodItem(food, 40);
-  // console.log(item);
+  const tomato = mealPlan.ingredients.find((elem) => elem.name === 'Tomato');
+  tomato.amount = 40;
+  mealPlan.replaceIngredient(tomato);
+  console.log('WITH EDITED TOMATO', mealPlan);
 
-  // const rice = {
-  //   name: 'Rice',
-  //   custom: true,
-  //   kcal: 130,
-  //   fats: 0.3,
-  //   carbohydrates: 28,
-  //   proteins: 2.7,
-  // };
-
-  // const food2 = new FoodPer100g(rice);
-  // console.log(food2);
-
-  // console.log(mockFoodsPer100g);
+  // mealPlan.deleteIngredient(mealPlan.ingredients[2]);
+  // console.log('REMOVED RICE', mealPlan);
 
   return (
     <>

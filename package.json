@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Plan your groceries nutritiously",
   "main": "index.js",
-  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next -p 3002",

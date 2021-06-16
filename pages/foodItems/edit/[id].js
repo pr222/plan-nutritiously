@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import localForage from 'localforage';
 import style from '../../../styles/Form.module.css';
-import FoodPer100g from '../../../classes/FoodPer100g';
+import FoodPer100g from '../../../classes/FoodItem';
 
 export default function EditItem() {
   const router = useRouter();

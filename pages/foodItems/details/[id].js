@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import localForage from 'localforage';
-import FoodPer100g from '../../../classes/FoodPer100g';
+import FoodPer100g from '../../../classes/FoodItem';
 
 export default function FoodItemDetails() {
   const router = useRouter();
