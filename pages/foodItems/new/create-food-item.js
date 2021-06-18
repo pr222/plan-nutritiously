@@ -1,13 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { addItemToArray } from '../../../utils/handleStorage';
 import style from '../../../styles/Form.module.css';
 import FoodItem from '../../../classes/FoodItem';
 
 export default function CreateFoodItem() {
-  const router = useRouter();
+  const [isCreated, setIsCreated] = useState(false);
+  const [createdId, setCreatedId] = useState('');
+
   const {
     register,
     handleSubmit,
@@ -15,6 +18,8 @@ export default function CreateFoodItem() {
   } = useForm();
 
   const submitCustomFoodItem = async (data) => {
+    setIsCreated(false);
+
     const food = new FoodItem();
 
     food.name = data.name;
@@ -26,7 +31,8 @@ export default function CreateFoodItem() {
 
     addItemToArray('foodItems', food);
 
-    router.push(`/foodItems/details/${food.id}`);
+    setCreatedId(food.id);
+    setIsCreated(true);
   };
 
   return (
@@ -34,7 +40,9 @@ export default function CreateFoodItem() {
       <Head>
         <title>Create New Food Item</title>
       </Head>
+
       <h1>Create a new food item</h1>
+
       <form onSubmit={handleSubmit(submitCustomFoodItem)} className={style.form}>
         <fieldset>
           <legend className={style.header}>Name</legend>
@@ -127,7 +135,18 @@ export default function CreateFoodItem() {
         || errors.proteins || errors.costPerKg) && (
           <p>Example of accepted format for numbers: 12.05</p>
         )}
+
         <button type="submit">Create Item</button>
+
+        {isCreated === true
+          && (
+            <p>
+              {'Created! '}
+              <Link href={`/foodItems/details/${createdId}`}>
+                <a>View Food Item</a>
+              </Link>
+            </p>
+          )}
       </form>
     </>
   );

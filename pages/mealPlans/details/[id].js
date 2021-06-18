@@ -22,10 +22,6 @@ export default function MealPlanDetails() {
   const plan = mealPlans.find((elem) => elem.id === itemId);
   const mealPlan = Object.assign(new MealPlan(), plan);
 
-  const goBack = () => {
-    router.back();
-  };
-
   return (
     <>
       <Head>
@@ -34,7 +30,6 @@ export default function MealPlanDetails() {
 
       {mealPlan ? (
         <>
-          <button type="button" onClick={goBack}>Back</button>
           <h1>
             Meal Plan:
             {` ${mealPlan.name}`}

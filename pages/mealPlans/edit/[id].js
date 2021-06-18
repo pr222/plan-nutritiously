@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,11 +9,9 @@ import style from '../../../styles/Form.module.css';
 import MealPlan from '../../../classes/MealPlan';
 
 export default function EditMealPlan() {
-  const router = useRouter();
-  const goBack = () => {
-    router.back();
-  };
+  const [isSaved, setIsSaved] = useState(false);
 
+  const router = useRouter();
   const itemId = router.query.id;
   const [currentItem, setCurrentItem] = useState({});
 
@@ -44,6 +43,7 @@ export default function EditMealPlan() {
   }, [reset, itemId]);
 
   const submitEditedMealPlan = async (data) => {
+    setIsSaved(false);
     const res = await getFromStorage('mealPlans');
 
     if (res !== null) {
@@ -56,8 +56,7 @@ export default function EditMealPlan() {
 
         await updateItemInArray('mealPlans', plan);
 
-        router.reload();
-        router.back();
+        setIsSaved(true);
       }
     }
   };
@@ -73,13 +72,11 @@ export default function EditMealPlan() {
       <Head>
         <title>Edit Meal Plan</title>
       </Head>
-      <button type="button" onClick={goBack}>Back</button>
+
       {currentItem ? (
         <>
-          <h1>
-            Meal Plan -
-            {` ${currentItem.name}`}
-          </h1>
+          <h1> Edit Meal Plan </h1>
+
           <form onSubmit={handleSubmit(submitEditedMealPlan)} className={style.form}>
             <fieldset>
               <legend className={style.header}>Information</legend>
@@ -100,6 +97,16 @@ export default function EditMealPlan() {
           <form onSubmit={handleSubmit(handleDeleteSubmit)}>
             <button type="submit">Delete Item</button>
           </form>
+
+          {isSaved === true
+          && (
+            <p>
+              {'Updated! '}
+              <Link href={`/mealPlans/details/${itemId}`}>
+                <a>View Meal Plan</a>
+              </Link>
+            </p>
+          )}
         </>
       ) : <p>Loading...</p>}
     </>

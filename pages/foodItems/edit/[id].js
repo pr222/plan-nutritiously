@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,11 +9,9 @@ import style from '../../../styles/Form.module.css';
 import FoodItem from '../../../classes/FoodItem';
 
 export default function EditFoodItem() {
-  const router = useRouter();
-  const goBack = () => {
-    router.back();
-  };
+  const [isSaved, setIsSaved] = useState(false);
 
+  const router = useRouter();
   const itemId = router.query.id;
   const [currentItem, setCurrentItem] = useState({});
 
@@ -51,6 +50,7 @@ export default function EditFoodItem() {
   }, [reset, itemId]);
 
   const submitEditedFoodItem = async (data) => {
+    setIsSaved(false);
     const res = await getFromStorage('foodItems');
 
     if (res !== null) {
@@ -68,22 +68,15 @@ export default function EditFoodItem() {
 
         await updateItemInArray('foodItems', food);
 
-        router.reload();
-        router.back();
+        setIsSaved(true);
       }
     }
   };
 
   const handleDeleteSubmit = async () => {
     await deleteItemInArray('foodItems', currentItem);
-    // const res = await localForage.getItem('foodItems');
-    // if (res !== null) {
-    //   const filteredItems = res.filter((elem) => elem.id !== itemId);
-
-    //   await localForage.setItem('foodItems', filteredItems);
 
     router.push('/foodItems/');
-    // }
   };
 
   return (
@@ -92,7 +85,6 @@ export default function EditFoodItem() {
         <title>Edit Food Item</title>
       </Head>
 
-      <button type="button" onClick={goBack}>Back</button>
       {currentItem ? (
         <>
           <h1>Edit a food item</h1>
@@ -196,6 +188,16 @@ export default function EditFoodItem() {
           <form onSubmit={handleSubmit(handleDeleteSubmit)}>
             <button type="submit">Delete Item</button>
           </form>
+
+          {isSaved === true
+          && (
+            <p>
+              {'Updated! '}
+              <Link href={`/foodItems/details/${itemId}`}>
+                <a>View Food Item</a>
+              </Link>
+            </p>
+          )}
         </>
       ) : <p>Loading...</p>}
     </>

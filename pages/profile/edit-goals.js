@@ -102,12 +102,16 @@ export default function EditGoals() {
             />
           </label>
         </fieldset>
+
         <button type="submit">Save Goals</button>
-        <p>{isSaved ? 'Saved!' : ''}</p>
+
+        {isSaved === true && <p>Goals Saved!</p>}
+
         {(errors.kcal || errors.fats || errors.carbohydrates
         || errors.proteins) && (
           <p>Only use whole numbers!</p>
         )}
+
       </form>
     </>
   );

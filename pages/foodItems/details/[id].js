@@ -22,17 +22,11 @@ export default function FoodItemDetails() {
   const food = foodItems.find((elem) => elem.id === itemId);
   const foodItem = Object.assign(new FoodItem(), food);
 
-  const goBack = () => {
-    router.back();
-  };
-
   return (
     <>
       <Head>
         <title>Food Item Details</title>
       </Head>
-
-      <button type="button" onClick={goBack}>Back</button>
 
       {foodItem ? (
         <>
