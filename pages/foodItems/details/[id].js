@@ -2,8 +2,8 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import localForage from 'localforage';
-import FoodPer100g from '../../../classes/FoodItem';
+import { getFromStorage } from '../../../utils/handleStorage';
+import FoodItem from '../../../classes/FoodItem';
 
 export default function FoodItemDetails() {
   const router = useRouter();
@@ -12,15 +12,15 @@ export default function FoodItemDetails() {
 
   useEffect(() => {
     const getItems = async () => {
-      const res = await localForage.getItem('foodItems');
+      const res = await getFromStorage('foodItems');
       setFoodItems(res);
     };
 
     getItems();
   }, []);
 
-  const food = foodItems.find((it) => it.id === Number(itemId));
-  const foodItem = Object.assign(new FoodPer100g(), food);
+  const food = foodItems.find((elem) => elem.id === itemId);
+  const foodItem = Object.assign(new FoodItem(), food);
 
   const goBack = () => {
     router.back();
@@ -31,6 +31,8 @@ export default function FoodItemDetails() {
       <Head>
         <title>Food Item Details</title>
       </Head>
+
+      <button type="button" onClick={goBack}>Back</button>
 
       {foodItem ? (
         <>
@@ -55,13 +57,12 @@ export default function FoodItemDetails() {
             </li>
           </ul>
           <h2>Prices</h2>
-          {/* <ul>
+          <ul>
             <li>
-              Low cost per kg:
-              {` ${foodItem.cost.low}`}
+              Cost per kg:
+              {` ${foodItem.costPerKg}`}
             </li>
-          </ul> */}
-          <button type="button" onClick={goBack}>Back</button>
+          </ul>
           <button type="button">
             <Link href={`/foodItems/edit/${itemId}`}>
               <a>Edit Food Item</a>

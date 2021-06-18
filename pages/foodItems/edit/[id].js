@@ -3,17 +3,17 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import localForage from 'localforage';
+import { deleteItemInArray, getFromStorage, updateItemInArray } from '../../../utils/handleStorage';
 import style from '../../../styles/Form.module.css';
-import FoodPer100g from '../../../classes/FoodItem';
+import FoodItem from '../../../classes/FoodItem';
 
-export default function EditItem() {
+export default function EditFoodItem() {
   const router = useRouter();
   const goBack = () => {
     router.back();
   };
 
-  const itemId = Number(router.query.id);
+  const itemId = router.query.id;
   const [currentItem, setCurrentItem] = useState({});
 
   const {
@@ -24,13 +24,14 @@ export default function EditItem() {
   } = useForm();
 
   useEffect(() => {
-    const getItems = async () => {
-      const res = await localForage.getItem('foodItems');
+    const prefillForm = async () => {
+      const res = await getFromStorage('foodItems');
+
       if (res !== null) {
         const foodItem = res.find((elem) => elem.id === itemId);
 
         if (foodItem) {
-          const food = Object.assign(new FoodPer100g(), foodItem);
+          const food = Object.assign(new FoodItem(), foodItem);
 
           setCurrentItem(food);
 
@@ -40,47 +41,49 @@ export default function EditItem() {
             fats: food.fats,
             carbohydrates: food.carbohydrates,
             proteins: food.proteins,
+            costPerKg: food.costPerKg,
           });
         }
       }
     };
-    getItems();
+
+    prefillForm();
   }, [reset, itemId]);
 
-  const replaceInStorage = async (newItem) => {
-    const oldItems = await localForage.getItem('foodItems');
-
-    const itemIndex = oldItems.findIndex((elem) => elem.id === itemId);
-    const newItems = Array.from(oldItems);
-    newItems.splice(itemIndex, 1, newItem);
-
-    await localForage.setItem('foodItems', newItems);
-  };
-
   const submitEditedFoodItem = async (data) => {
-    const res = await localForage.getItem('foodItems');
+    const res = await getFromStorage('foodItems');
+
     if (res !== null) {
       const foodItem = res.find((elem) => elem.id === itemId);
 
       if (foodItem) {
-        const food = Object.assign(new FoodPer100g(), foodItem);
+        const food = Object.assign(new FoodItem(), foodItem);
 
-        try {
-          food.name = data.name;
-          food.kcal = data.kcal;
-          food.fats = data.fats;
-          food.carbohydrates = data.carbohydrates;
-          food.proteins = data.proteins;
-        } catch (error) {
-          console.log(error);
-          console.log(error.message);
-        }
+        food.name = data.name;
+        food.kcal = data.kcal;
+        food.fats = data.fats;
+        food.carbohydrates = data.carbohydrates;
+        food.proteins = data.proteins;
+        food.costPerKg = data.costPerKg;
 
-        replaceInStorage(food);
+        await updateItemInArray('foodItems', food);
 
-        router.push('/foodItems');
+        router.reload();
+        router.back();
       }
     }
+  };
+
+  const handleDeleteSubmit = async () => {
+    await deleteItemInArray('foodItems', currentItem);
+    // const res = await localForage.getItem('foodItems');
+    // if (res !== null) {
+    //   const filteredItems = res.filter((elem) => elem.id !== itemId);
+
+    //   await localForage.setItem('foodItems', filteredItems);
+
+    router.push('/foodItems/');
+    // }
   };
 
   return (
@@ -89,6 +92,7 @@ export default function EditItem() {
         <title>Edit Food Item</title>
       </Head>
 
+      <button type="button" onClick={goBack}>Back</button>
       {currentItem ? (
         <>
           <h1>Edit a food item</h1>
@@ -165,32 +169,35 @@ export default function EditItem() {
                 />
               </label>
             </fieldset>
-            {/* <fieldset>
+            <fieldset>
               <legend className={style.header}>Prices</legend>
-              <label htmlFor="lowCost">
-                Low Cost
-                {errors.lowCost && <p className={style.errorMessage}>Invalid number!</p>}
+              <label htmlFor="costPerKg">
+                Cost per kg
+                {errors.costPerKg && <p className={style.errorMessage}>Invalid number!</p>}
                 <input
-                  id="lowCost"
-                  name="lowCost"
-                  placeholder="low cost per kg"
-                  {...register('lowCost', {
+                  id="costPerKg"
+                  name="costPerKg"
+                  placeholder="cost per kg"
+                  {...register('costPerKg', {
                     validate: {
                       positive: (value) => (Number(value) >= 0) || value.length < 1,
                     },
                   })}
                 />
               </label>
-            </fieldset> */}
+            </fieldset>
             {(errors.fats || errors.carbohydrates
-            || errors.proteins) && (
+            || errors.proteins || errors.costPerKg) && (
               <p>Example of accepted format for numbers: 12.05</p>
             )}
             <button type="submit">Update Item</button>
           </form>
+
+          <form onSubmit={handleSubmit(handleDeleteSubmit)}>
+            <button type="submit">Delete Item</button>
+          </form>
         </>
       ) : <p>Loading...</p>}
-      <button type="button" onClick={goBack}>Back</button>
     </>
   );
 }

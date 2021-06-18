@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import localForage from 'localforage';
-import MealPlan from '../classes/MealPlan';
+import { getFromStorage } from '../utils/handleStorage';
+// import MealPlan from '../classes/MealPlan';
 // import FoodPer100g from '../classes/FoodPer100g';
 // import mockFoodItems from '../mocks/mockFoodItems';
-import mockIngredients from '../mocks/mockIngredients';
-import Ingredient from '../classes/Ingredient';
+// import mockIngredients from '../mocks/mockIngredients';
+// import Ingredient from '../classes/Ingredient';
 // import FoodItem from '../classes/FoodItem';
 // import PropTypes from 'prop-types';
 // import connectToDatabase from '../middleware/mongodb';
@@ -22,27 +22,13 @@ export default function Home() {
     // };
 
     const getGoals = async () => {
-      const res = await localForage.getItem('goals');
+      const res = await getFromStorage('goals');
       setGoals(res);
     };
 
     // getItems();
     getGoals();
   }, []);
-
-  const mealPlan = new MealPlan('My Breakkie');
-  mealPlan.addIngredient(mockIngredients[0]);
-  mealPlan.addIngredient(mockIngredients[1]);
-  mealPlan.addIngredient(mockIngredients[3]);
-  console.log('THREE ADDED', mealPlan);
-
-  const tomato = mealPlan.ingredients.find((elem) => elem.name === 'Tomato');
-  tomato.amount = 40;
-  mealPlan.replaceIngredient(tomato);
-  console.log('WITH EDITED TOMATO', mealPlan);
-
-  // mealPlan.deleteIngredient(mealPlan.ingredients[2]);
-  // console.log('REMOVED RICE', mealPlan);
 
   return (
     <>

@@ -2,11 +2,11 @@
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
-import localForage from 'localforage';
-import style from '../../styles/Form.module.css';
-import FoodPer100g from '../../../classes/FoodPer100g';
+import { addItemToArray } from '../../../utils/handleStorage';
+import style from '../../../styles/Form.module.css';
+import FoodItem from '../../../classes/FoodItem';
 
-export default function CreateCustomFoodItem() {
+export default function CreateFoodItem() {
   const router = useRouter();
   const {
     register,
@@ -15,48 +15,26 @@ export default function CreateCustomFoodItem() {
   } = useForm();
 
   const submitCustomFoodItem = async (data) => {
-    const food = new FoodPer100g(data.name);
+    const food = new FoodItem();
 
     food.name = data.name;
     food.kcal = data.kcal;
     food.fats = data.fats;
     food.carbohydrates = data.carbohydrates;
     food.proteins = data.proteins;
+    food.costPerKg = data.costPerKg;
 
-    let array;
-    const prev = await localForage.getItem('foodItems');
-    if (!prev) {
-      const initial = [];
-      await localForage.setItem('foodItems', initial);
-      array = initial;
-    } else {
-      array = prev;
-    }
+    addItemToArray('foodItems', food);
 
-    array.push(food);
-
-    await localForage.setItem('foodItems', array);
-
-    router.push('/');
-
-    // SAVE TO A DB VIA FUTURE API
-    // await fetch('/api/foodItems/create-foodItem', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ foodItem }),
-    // }).then(async (res) => {
-    //   const response = await res.json();
-    //   console.log('JSON', response);
-    //   if (res.ok) router.push('/');
-    // });
+    router.push(`/foodItems/details/${food.id}`);
   };
 
   return (
     <>
       <Head>
-        <title>Create Custom Food Item</title>
+        <title>Create New Food Item</title>
       </Head>
-      <h1>Create a custom food item</h1>
+      <h1>Create a new food item</h1>
       <form onSubmit={handleSubmit(submitCustomFoodItem)} className={style.form}>
         <fieldset>
           <legend className={style.header}>Name</legend>
@@ -128,25 +106,25 @@ export default function CreateCustomFoodItem() {
             />
           </label>
         </fieldset>
-        {/* <fieldset>
+        <fieldset>
           <legend className={style.header}>Prices</legend>
-          <label htmlFor="lowCost">
-            Low Cost
+          <label htmlFor="costPerKg">
+            Cost per kg
             {errors.lowCost && <p className={style.errorMessage}>Invalid number!</p>}
             <input
-              id="lowCost"
-              name="lowCost"
-              placeholder="low cost per kg"
-              {...register('lowCost', {
+              id="costPerKg"
+              name="costPerKg"
+              placeholder="cost per kg"
+              {...register('costPerKg', {
                 validate: {
                   positive: (value) => (Number(value) >= 0) || value.length < 1,
                 },
               })}
             />
           </label>
-        </fieldset> */}
+        </fieldset>
         {(errors.fats || errors.carbohydrates
-        || errors.proteins || {/* errors.lowCost */}) && (
+        || errors.proteins || errors.costPerKg) && (
           <p>Example of accepted format for numbers: 12.05</p>
         )}
         <button type="submit">Create Item</button>

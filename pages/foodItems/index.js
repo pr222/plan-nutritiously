@@ -1,14 +1,14 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import localForage from 'localforage';
+import { getFromStorage } from '../../utils/handleStorage';
 
 export default function FoodItems() {
   const [foodItems, setFoodItems] = useState([]);
 
   useEffect(() => {
     const getItems = async () => {
-      const res = await localForage.getItem('foodItems');
+      const res = await getFromStorage('foodItems');
       setFoodItems(res);
     };
 

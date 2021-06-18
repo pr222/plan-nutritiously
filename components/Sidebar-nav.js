@@ -6,23 +6,46 @@ const SidebarNav = () => (
     <ul className={style.mainUl}>
       <li>
         <Link href="/">
-          <a>Home</a>
+          <a>Dashboard</a>
         </Link>
       </li>
       <li>
-        <Link href="/profile/edit-goals">
-          <a>Edit Goals</a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/foodItems/">
-          <a>My food items</a>
-        </Link>
+        Profile
       </li>
       <ul className={style.subList}>
-        <li className={style.subList}>
-          <Link href="/foodItems/add-food-item">
-            <a>Add</a>
+        <li>
+          <Link href="/profile/edit-goals">
+            <a>My Goals</a>
+          </Link>
+        </li>
+      </ul>
+      <li>
+        My Meal Plans
+      </li>
+      <ul className={style.subList}>
+        <li>
+          <Link href="/mealPlans/">
+            <a>All Meal Plans</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/mealPlans/new/create-meal-plan">
+            <a>New Meal Plan</a>
+          </Link>
+        </li>
+      </ul>
+      <li>
+        My Food Collection
+      </li>
+      <ul className={style.subList}>
+        <li>
+          <Link href="/foodItems/">
+            <a>All Food Items</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/foodItems/new/create-food-item">
+            <a>New Food Item</a>
           </Link>
         </li>
       </ul>
