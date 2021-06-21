@@ -1,7 +1,7 @@
 import FoodItem from '../classes/FoodItem';
 import Ingredient from '../classes/Ingredient';
 
-const mockFoodItems = [
+const mockIngredients = [
   new Ingredient(new FoodItem({
     name: 'Tomato',
     kcal: 12,
@@ -36,4 +36,4 @@ const mockFoodItems = [
   }), 150),
 ];
 
-export { mockFoodItems as default };
+export { mockIngredients as default };
