@@ -18,7 +18,7 @@ export default function Home() {
   const [mealPlans, setMealPlans] = useState([]);
   const [currentMealPlan, setCurrentMealPlan] = useState();
   const [mealPlanQuery, setMealPlanQuery] = useState('');
-  const [isSelected, setIsSelected] = useState(false);
+  // const [isSelected, setIsSelected] = useState(false);
 
   // const {
   //   register,
@@ -56,10 +56,10 @@ export default function Home() {
 
   const handleSelectMealPlan = (event) => {
     if (!event.target.value) {
-      setIsSelected(false);
+      // setIsSelected(false);
       setCurrentMealPlan();
     } else {
-      setIsSelected(true);
+      // setIsSelected(true);
     }
     setMealPlanQuery(event.target.value);
   };
@@ -77,8 +77,8 @@ export default function Home() {
       <Head>
         <title>Plan Nutritiously</title>
       </Head>
-      <h1>Welcome!</h1>
-      <p>Plan your groceries nutritiously</p>
+      {/* <h1>Welcome!</h1>
+      <p>Plan your groceries nutritiously</p> */}
 
       <form>
         <label htmlFor="selectMealPlan">
@@ -91,7 +91,7 @@ export default function Home() {
           </select>
         </label>
       </form>
-      {isSelected ? 'SELECTET' : 'NO-SELECT'}
+      {/* {isSelected ? 'SELECTET' : 'NO-SELECT'} */}
 
       {currentMealPlan
         ? (
@@ -99,11 +99,14 @@ export default function Home() {
             <h3>
               {currentMealPlan.name}
             </h3>
-            <p>{currentMealPlan.id}</p>
+            {/* <p>{currentMealPlan.id}</p> */}
+            <h4>Ingredients</h4>
             <ul>
               {currentMealPlan.ingredients !== undefined
                 && currentMealPlan.ingredients.map((elem) => (
-                  <li key={`ingredient-${elem.id}`}>{elem.name}</li>
+                  <li key={`ingredient-${elem.id}`}>
+                    {`${elem.amount} g of ${elem.name} `}
+                  </li>
                 ))}
             </ul>
           </>

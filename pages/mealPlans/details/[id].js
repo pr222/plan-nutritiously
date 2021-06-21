@@ -10,7 +10,6 @@ export default function MealPlanDetails() {
   const router = useRouter();
   const itemId = router.query.id;
   const [mealPlans, setMealPlans] = useState([]);
-  // const [currentMealPlan, setCurrentMealPlan] = useState();
 
   useEffect(() => {
     const getItems = async () => {
@@ -23,7 +22,6 @@ export default function MealPlanDetails() {
 
   const plan = mealPlans.find((elem) => elem.id === itemId);
   const mealPlan = Object.assign(new MealPlan(), plan);
-  // setCurrentMealPlan(mealPlan);
 
   return (
     <>
@@ -33,10 +31,7 @@ export default function MealPlanDetails() {
 
       {mealPlan ? (
         <>
-          <h1>
-            Meal Plan
-            {/* {` ${mealPlan.name}`} */}
-          </h1>
+          <h1>Meal Plan</h1>
           <button type="button">
             <Link href={`/mealPlans/edit/${itemId}`}>
               <a>Edit Meal Plan</a>
