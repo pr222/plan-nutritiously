@@ -1,12 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import localForage from 'localforage';
-import style from '../../styles/Form.module.css';
+import { addItemToArray } from '../../../utils/handleStorage';
+import style from '../../../styles/Form.module.css';
+import FoodItem from '../../../classes/FoodItem';
 
-export default function CreateCustomFoodItem() {
-  const router = useRouter();
+export default function CreateFoodItem() {
+  const [isCreated, setIsCreated] = useState(false);
+  const [createdId, setCreatedId] = useState('');
+
   const {
     register,
     handleSubmit,
@@ -14,57 +18,31 @@ export default function CreateCustomFoodItem() {
   } = useForm();
 
   const submitCustomFoodItem = async (data) => {
-    const foodItem = {
-      id: Date.now(),
-      custom: true,
-      name: data.name,
-      nutrition: {
-        kcal: data.kcal,
-        fats: data.fats,
-        carbohydrates: data.carbohydrates,
-        proteins: data.proteins,
-      },
-      cost: {
-        low: data.lowCost,
-      },
-    };
+    setIsCreated(false);
 
-    let array;
-    const prev = await localForage.getItem('foodItems');
-    if (!prev) {
-      const initial = [];
-      await localForage.setItem('foodItems', initial);
-      array = initial;
-    } else {
-      array = prev;
-    }
+    const food = new FoodItem();
 
-    array.push(foodItem);
+    food.name = data.name;
+    food.kcal = data.kcal;
+    food.fats = data.fats;
+    food.carbohydrates = data.carbohydrates;
+    food.proteins = data.proteins;
+    food.costPerKg = data.costPerKg;
 
-    await localForage.setItem('foodItems', array);
+    addItemToArray('foodItems', food);
 
-    router.push('/');
-    // const gotten = await localForage.getItem('foodItems');
-    // console.log('GOT: ', gotten);
-
-    // SAVE TO A DB VIA FUTURE API
-    // await fetch('/api/foodItems/create-foodItem', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ foodItem }),
-    // }).then(async (res) => {
-    //   const response = await res.json();
-    //   console.log('JSON', response);
-    //   if (res.ok) router.push('/');
-    // });
+    setCreatedId(food.id);
+    setIsCreated(true);
   };
 
   return (
     <>
       <Head>
-        <title>Create Custom Food Item</title>
+        <title>Create New Food Item</title>
       </Head>
-      <h1>Create a custom food item</h1>
+
+      <h1>Create a new food item</h1>
+
       <form onSubmit={handleSubmit(submitCustomFoodItem)} className={style.form}>
         <fieldset>
           <legend className={style.header}>Name</legend>
@@ -102,7 +80,7 @@ export default function CreateCustomFoodItem() {
               placeholder="fats per 100g"
               {...register('fats', {
                 validate: {
-                  positive: (value) => (Number(value) > 0) || value.length < 1,
+                  positive: (value) => (Number(value) >= 0) || value.length < 1,
                 },
               })}
             />
@@ -116,7 +94,7 @@ export default function CreateCustomFoodItem() {
               placeholder="carbohydrates per 100g"
               {...register('carbohydrates', {
                 validate: {
-                  positive: (value) => (Number(value) > 0) || value.length < 1,
+                  positive: (value) => (Number(value) >= 0) || value.length < 1,
                 },
               })}
             />
@@ -130,7 +108,7 @@ export default function CreateCustomFoodItem() {
               placeholder="proteins per 100g"
               {...register('proteins', {
                 validate: {
-                  positive: (value) => (Number(value) > 0) || value.length < 1,
+                  positive: (value) => (Number(value) >= 0) || value.length < 1,
                 },
               })}
             />
@@ -138,26 +116,37 @@ export default function CreateCustomFoodItem() {
         </fieldset>
         <fieldset>
           <legend className={style.header}>Prices</legend>
-          <label htmlFor="lowCost">
-            Low Cost
+          <label htmlFor="costPerKg">
+            Cost per kg
             {errors.lowCost && <p className={style.errorMessage}>Invalid number!</p>}
             <input
-              id="lowCost"
-              name="lowCost"
-              placeholder="low cost per kg"
-              {...register('lowCost', {
+              id="costPerKg"
+              name="costPerKg"
+              placeholder="cost per kg"
+              {...register('costPerKg', {
                 validate: {
-                  positive: (value) => (Number(value) > 0) || value.length < 1,
+                  positive: (value) => (Number(value) >= 0) || value.length < 1,
                 },
               })}
             />
           </label>
         </fieldset>
         {(errors.fats || errors.carbohydrates
-        || errors.proteins || errors.lowCost) && (
+        || errors.proteins || errors.costPerKg) && (
           <p>Example of accepted format for numbers: 12.05</p>
         )}
+
         <button type="submit">Create Item</button>
+
+        {isCreated === true
+          && (
+            <p>
+              {'Created! '}
+              <Link href={`/foodItems/details/${createdId}`}>
+                <a>View Food Item</a>
+              </Link>
+            </p>
+          )}
       </form>
     </>
   );

@@ -2,7 +2,7 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import localForage from 'localforage';
+import { getFromStorage, setToStorage } from '../../utils/handleStorage';
 import style from '../../styles/Form.module.css';
 
 export default function EditGoals() {
@@ -16,13 +16,14 @@ export default function EditGoals() {
   } = useForm();
 
   useEffect(() => {
-    const getItems = async () => {
-      const res = await localForage.getItem('goals');
+    const prefillForm = async () => {
+      const res = await getFromStorage('goals');
       if (res !== null) {
         reset(res);
       }
     };
-    getItems();
+
+    prefillForm();
   }, [reset]);
 
   const submitGoals = async (data) => {
@@ -33,7 +34,7 @@ export default function EditGoals() {
       proteins: data.proteins,
     };
 
-    await localForage.setItem('goals', goals);
+    await setToStorage('goals', goals);
 
     setIsSaved(true);
     setTimeout(() => {
@@ -47,7 +48,7 @@ export default function EditGoals() {
         <title>Edit Goals</title>
       </Head>
 
-      <h1>Edit your nutrition goals</h1>
+      <h1>Edit nutrition goals</h1>
 
       <form onSubmit={handleSubmit(submitGoals)} className={style.form}>
         <fieldset>
@@ -101,12 +102,16 @@ export default function EditGoals() {
             />
           </label>
         </fieldset>
+
         <button type="submit">Save Goals</button>
-        <p>{isSaved ? 'Saved!' : ''}</p>
+
+        {isSaved === true && <p>Goals Saved!</p>}
+
         {(errors.kcal || errors.fats || errors.carbohydrates
         || errors.proteins) && (
           <p>Only use whole numbers!</p>
         )}
+
       </form>
     </>
   );

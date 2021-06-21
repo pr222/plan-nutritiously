@@ -2,7 +2,8 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import localForage from 'localforage';
+import { getFromStorage } from '../../../utils/handleStorage';
+import FoodItem from '../../../classes/FoodItem';
 
 export default function FoodItemDetails() {
   const router = useRouter();
@@ -11,18 +12,15 @@ export default function FoodItemDetails() {
 
   useEffect(() => {
     const getItems = async () => {
-      const res = await localForage.getItem('foodItems');
+      const res = await getFromStorage('foodItems');
       setFoodItems(res);
     };
 
     getItems();
   }, []);
 
-  const foodItem = foodItems.find((it) => it.id === Number(itemId));
-
-  const goBack = () => {
-    router.back();
-  };
+  const food = foodItems.find((elem) => elem.id === itemId);
+  const foodItem = Object.assign(new FoodItem(), food);
 
   return (
     <>
@@ -37,29 +35,28 @@ export default function FoodItemDetails() {
           <ul>
             <li>
               Kcal:
-              {` ${foodItem.nutrition.kcal}`}
+              {` ${foodItem.kcal}`}
             </li>
             <li>
               Fats:
-              {` ${foodItem.nutrition.fats}`}
+              {` ${foodItem.fats}`}
             </li>
             <li>
               Carbohydrates:
-              {` ${foodItem.nutrition.carbohydrates}`}
+              {` ${foodItem.carbohydrates}`}
             </li>
             <li>
               Proteins:
-              {` ${foodItem.nutrition.proteins}`}
+              {` ${foodItem.proteins}`}
             </li>
           </ul>
           <h2>Prices</h2>
           <ul>
             <li>
-              Low cost per kg:
-              {` ${foodItem.cost.low}`}
+              Cost per kg:
+              {` ${foodItem.costPerKg}`}
             </li>
           </ul>
-          <button type="button" onClick={goBack}>Back</button>
           <button type="button">
             <Link href={`/foodItems/edit/${itemId}`}>
               <a>Edit Food Item</a>

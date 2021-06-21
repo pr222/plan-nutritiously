@@ -1,18 +1,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import localForage from 'localforage';
+import { deleteItemInArray, getFromStorage, updateItemInArray } from '../../../utils/handleStorage';
 import style from '../../../styles/Form.module.css';
+import FoodItem from '../../../classes/FoodItem';
 
-export default function EditItem() {
+export default function EditFoodItem() {
+  const [isSaved, setIsSaved] = useState(false);
+
   const router = useRouter();
-  const goBack = () => {
-    router.back();
-  };
-
-  const itemId = Number(router.query.id);
+  const itemId = router.query.id;
   const [currentItem, setCurrentItem] = useState({});
 
   const {
@@ -23,59 +23,60 @@ export default function EditItem() {
   } = useForm();
 
   useEffect(() => {
-    const getItems = async () => {
-      const res = await localForage.getItem('foodItems');
-      if (res !== null) {
-        // setFoodItems(res);
+    const prefillForm = async () => {
+      const res = await getFromStorage('foodItems');
 
+      if (res !== null) {
         const foodItem = res.find((elem) => elem.id === itemId);
 
         if (foodItem) {
-          setCurrentItem(foodItem);
+          const food = Object.assign(new FoodItem(), foodItem);
+
+          setCurrentItem(food);
 
           reset({
-            name: foodItem.name,
-            kcal: foodItem.nutrition.kcal,
-            fats: foodItem.nutrition.fats,
-            carbohydrates: foodItem.nutrition.carbohydrates,
-            proteins: foodItem.nutrition.proteins,
-            lowCost: foodItem.cost.low,
+            name: food.name,
+            kcal: food.kcal,
+            fats: food.fats,
+            carbohydrates: food.carbohydrates,
+            proteins: food.proteins,
+            costPerKg: food.costPerKg,
           });
         }
       }
     };
-    getItems();
+
+    prefillForm();
   }, [reset, itemId]);
 
-  const replaceInStorage = async (newItem) => {
-    const oldItems = await localForage.getItem('foodItems');
+  const submitEditedFoodItem = async (data) => {
+    setIsSaved(false);
+    const res = await getFromStorage('foodItems');
 
-    const itemIndex = oldItems.findIndex((elem) => elem.id === itemId);
-    const newItems = Array.from(oldItems);
-    newItems.splice(itemIndex, 1, newItem);
+    if (res !== null) {
+      const foodItem = res.find((elem) => elem.id === itemId);
 
-    await localForage.setItem('foodItems', newItems);
+      if (foodItem) {
+        const food = Object.assign(new FoodItem(), foodItem);
 
-    router.push('/foodItems');
+        food.name = data.name;
+        food.kcal = data.kcal;
+        food.fats = data.fats;
+        food.carbohydrates = data.carbohydrates;
+        food.proteins = data.proteins;
+        food.costPerKg = data.costPerKg;
+
+        await updateItemInArray('foodItems', food);
+
+        setIsSaved(true);
+      }
+    }
   };
 
-  const submitEditedFoodItem = async (data) => {
-    const updatedFoodItem = {
-      id: currentItem.id,
-      custom: currentItem.custom,
-      name: data.name,
-      nutrition: {
-        kcal: data.kcal,
-        fats: data.fats,
-        carbohydrates: data.carbohydrates,
-        proteins: data.proteins,
-      },
-      cost: {
-        low: data.lowCost,
-      },
-    };
+  const handleDeleteSubmit = async () => {
+    await deleteItemInArray('foodItems', currentItem);
 
-    replaceInStorage(updatedFoodItem);
+    router.push('/foodItems/');
   };
 
   return (
@@ -125,7 +126,7 @@ export default function EditItem() {
                   placeholder="fats per 100g"
                   {...register('fats', {
                     validate: {
-                      positive: (value) => (Number(value) > 0) || value.length < 1,
+                      positive: (value) => (Number(value) >= 0) || value.length < 1,
                     },
                   })}
                 />
@@ -140,7 +141,7 @@ export default function EditItem() {
                   placeholder="carbohydrates per 100g"
                   {...register('carbohydrates', {
                     validate: {
-                      positive: (value) => (Number(value) > 0) || value.length < 1,
+                      positive: (value) => (Number(value) >= 0) || value.length < 1,
                     },
                   })}
                 />
@@ -154,7 +155,7 @@ export default function EditItem() {
                   placeholder="proteins per 100g"
                   {...register('proteins', {
                     validate: {
-                      positive: (value) => (Number(value) > 0) || value.length < 1,
+                      positive: (value) => (Number(value) >= 0) || value.length < 1,
                     },
                   })}
                 />
@@ -162,30 +163,43 @@ export default function EditItem() {
             </fieldset>
             <fieldset>
               <legend className={style.header}>Prices</legend>
-              <label htmlFor="lowCost">
-                Low Cost
-                {errors.lowCost && <p className={style.errorMessage}>Invalid number!</p>}
+              <label htmlFor="costPerKg">
+                Cost per kg
+                {errors.costPerKg && <p className={style.errorMessage}>Invalid number!</p>}
                 <input
-                  id="lowCost"
-                  name="lowCost"
-                  placeholder="low cost per kg"
-                  {...register('lowCost', {
+                  id="costPerKg"
+                  name="costPerKg"
+                  placeholder="cost per kg"
+                  {...register('costPerKg', {
                     validate: {
-                      positive: (value) => (Number(value) > 0) || value.length < 1,
+                      positive: (value) => (Number(value) >= 0) || value.length < 1,
                     },
                   })}
                 />
               </label>
             </fieldset>
             {(errors.fats || errors.carbohydrates
-            || errors.proteins || errors.lowCost) && (
+            || errors.proteins || errors.costPerKg) && (
               <p>Example of accepted format for numbers: 12.05</p>
             )}
             <button type="submit">Update Item</button>
           </form>
+
+          <form onSubmit={handleSubmit(handleDeleteSubmit)}>
+            <button type="submit">Delete Item</button>
+          </form>
+
+          {isSaved === true
+          && (
+            <p>
+              {'Updated! '}
+              <Link href={`/foodItems/details/${itemId}`}>
+                <a>View Food Item</a>
+              </Link>
+            </p>
+          )}
         </>
       ) : <p>Loading...</p>}
-      <button type="button" onClick={goBack}>Back</button>
     </>
   );
 }

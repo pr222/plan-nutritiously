@@ -3,13 +3,13 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getFromStorage } from '../../utils/handleStorage';
 
-export default function FoodItems() {
-  const [foodItems, setFoodItems] = useState([]);
+export default function MealPlans() {
+  const [mealPlans, setMealPlans] = useState([]);
 
   useEffect(() => {
     const getItems = async () => {
-      const res = await getFromStorage('foodItems');
-      setFoodItems(res);
+      const res = await getFromStorage('mealPlans');
+      setMealPlans(res);
     };
 
     getItems();
@@ -18,20 +18,20 @@ export default function FoodItems() {
   return (
     <>
       <Head>
-        <title>Food Items</title>
+        <title>Meal Plans</title>
       </Head>
-      <h1>My Food Items</h1>
-      {foodItems ? (
+      <h1>My Meal Plans</h1>
+      {mealPlans ? (
         <ul>
-          {foodItems.map((item) => (
+          {mealPlans.map((item) => (
             <li key={item.id}>
-              <Link href={`/foodItems/details/${item.id}`}>
+              <Link href={`/mealPlans/details/${item.id}`}>
                 <a>{item.name}</a>
               </Link>
             </li>
           ))}
         </ul>
-      ) : <p>No food items added yet.</p>}
+      ) : <p>No Meal Plans added yet.</p>}
     </>
   );
 }
