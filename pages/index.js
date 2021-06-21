@@ -80,39 +80,44 @@ export default function Home() {
       {/* <h1>Welcome!</h1>
       <p>Plan your groceries nutritiously</p> */}
 
-      <form>
-        <label htmlFor="selectMealPlan">
-          Choose a MealPlan to overview
-          <select id="selectMealPlan" name="selectMealPlan" value={mealPlanQuery} onChange={handleSelectMealPlan}>
-            <option key="defaultSelect" value="">Meal Plans</option>
-            {mealPlans.map((elem) => (
-              <option key={`option-${elem.id}`} value={elem.id}>{elem.name}</option>
-            ))}
-          </select>
-        </label>
-      </form>
-      {/* {isSelected ? 'SELECTET' : 'NO-SELECT'} */}
-
-      {currentMealPlan
-        ? (
-          <>
-            <h3>
-              {currentMealPlan.name}
-            </h3>
-            {/* <p>{currentMealPlan.id}</p> */}
-            <h4>Ingredients</h4>
-            <ul>
-              {currentMealPlan.ingredients !== undefined
-                && currentMealPlan.ingredients.map((elem) => (
-                  <li key={`ingredient-${elem.id}`}>
-                    {`${elem.amount} g of ${elem.name} `}
-                  </li>
+      {mealPlans
+      && (
+        <>
+          <form>
+            <label htmlFor="selectMealPlan">
+              Choose a MealPlan to overview
+              <select id="selectMealPlan" name="selectMealPlan" value={mealPlanQuery} onChange={handleSelectMealPlan}>
+                <option key="defaultSelect" value="">Meal Plans</option>
+                {mealPlans.map((elem) => (
+                  <option key={`option-${elem.id}`} value={elem.id}>{elem.name}</option>
                 ))}
-            </ul>
-          </>
-        )
-        : <p>No plan selected</p>}
+              </select>
+            </label>
+          </form>
 
+          {currentMealPlan
+            ? (
+              <>
+                <h3>
+                  {currentMealPlan.name}
+                </h3>
+                {/* <p>{currentMealPlan.id}</p> */}
+                <h4>Ingredients</h4>
+                <ul>
+                  {currentMealPlan.ingredients !== undefined
+                    && currentMealPlan.ingredients.map((elem) => (
+                      <li key={`ingredient-${elem.id}`}>
+                        {`${elem.amount} g of ${elem.name} `}
+                      </li>
+                    ))}
+                </ul>
+              </>
+            )
+            : <p>No plan selected</p>}
+        </>
+      )}
+
+      {/* {isSelected ? 'SELECTET' : 'NO-SELECT'} */}
       {/* <h2>My Food Items</h2>
       {foodItems ? (
         <ul>
