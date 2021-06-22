@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 import SidebarNav from './Sidebar-nav';
 import style from '../styles/Layout.module.css';
 
@@ -14,7 +15,13 @@ const Layout = ({ children }) => (
     <SidebarNav className={style.leftSideBar} />
     <main>{children}</main>
     <footer>
-      <a href="mailto: pr222ja@student.lnu.se">Contact</a>
+      <Link href="/about/">
+        <a>About</a>
+      </Link>
+      {'        '}
+      <Link href="/about/get-started">
+        <a>Get Started</a>
+      </Link>
     </footer>
   </div>
 );

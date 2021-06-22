@@ -1,4 +1,5 @@
 import Head from 'next/head';
+// import Link from 'next/link';
 import { useEffect, useState } from 'react';
 // import { useForm } from 'react-hook-form';
 import { getFromStorage } from '../utils/handleStorage';
@@ -7,7 +8,8 @@ import { getFromStorage } from '../utils/handleStorage';
 // import mockIngredients from '../mocks/mockIngredients';
 // import Ingredient from '../classes/Ingredient';
 // import FoodItem from '../classes/FoodItem';
-// import MealPlan from '../classes/MealPlan';
+import MealPlan from '../classes/MealPlan';
+import GetStartedInfo from '../components/GetStartedInfo';
 // import PropTypes from 'prop-types';
 // import connectToDatabase from '../middleware/mongodb';
 
@@ -67,8 +69,9 @@ export default function Home() {
   useEffect(() => {
     if (mealPlanQuery.length > 0) {
       const currentPlan = mealPlans.find((elem) => elem.id === mealPlanQuery);
+      const asClass = Object.assign(new MealPlan(), currentPlan);
 
-      setCurrentMealPlan(currentPlan);
+      setCurrentMealPlan(asClass);
     }
   }, [mealPlanQuery, mealPlans]);
 
@@ -77,15 +80,13 @@ export default function Home() {
       <Head>
         <title>Plan Nutritiously</title>
       </Head>
-      {/* <h1>Welcome!</h1>
-      <p>Plan your groceries nutritiously</p> */}
 
       {mealPlans
       && (
         <>
           <form>
             <label htmlFor="selectMealPlan">
-              Choose a MealPlan to overview
+              <div>Choose a Meal Plan to overview:</div>
               <select id="selectMealPlan" name="selectMealPlan" value={mealPlanQuery} onChange={handleSelectMealPlan}>
                 <option key="defaultSelect" value="">Meal Plans</option>
                 {mealPlans.map((elem) => (
@@ -98,22 +99,46 @@ export default function Home() {
           {currentMealPlan
             ? (
               <>
-                <h3>
-                  {currentMealPlan.name}
-                </h3>
+                <h1>{currentMealPlan.name}</h1>
                 {/* <p>{currentMealPlan.id}</p> */}
-                <h4>Ingredients</h4>
-                <ul>
-                  {currentMealPlan.ingredients !== undefined
-                    && currentMealPlan.ingredients.map((elem) => (
-                      <li key={`ingredient-${elem.id}`}>
-                        {`${elem.amount} g of ${elem.name} `}
-                      </li>
-                    ))}
-                </ul>
+
+                {currentMealPlan.totalCost
+                  && (
+                    <>
+                      <h2>Total Cost</h2>
+                      <div>{currentMealPlan.totalCost}</div>
+                    </>
+                  )}
+
+                {currentMealPlan.totalNutrients
+                  && (
+                    <>
+                      <h2>Total Nutrients</h2>
+                      <ul>
+                        <li>{`Kcal: ${currentMealPlan.totalNutrients.kcal}`}</li>
+                        <li>{`Fats: ${currentMealPlan.totalNutrients.fats}`}</li>
+                        <li>{`Carbs: ${currentMealPlan.totalNutrients.carbohydrates}`}</li>
+                        <li>{`Proteins: ${currentMealPlan.totalNutrients.proteins}`}</li>
+                      </ul>
+                    </>
+                  )}
+
+                {currentMealPlan.ingredients
+                  && (
+                    <>
+                      <h2>Ingredients</h2>
+                      <ul>
+                        {currentMealPlan.ingredients.map((elem) => (
+                          <li key={`ingredient-${elem.id}`}>
+                            {`${elem.amount} g of ${elem.name} `}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
               </>
             )
-            : <p>No plan selected</p>}
+            : <p>No meal plan is selected.</p>}
         </>
       )}
 
@@ -129,7 +154,7 @@ export default function Home() {
         </ul>
       ) : <p>No food items added yet.</p>} */}
 
-      <h2>Current goals</h2>
+      {/* <h2>Current goals</h2>
       {goals ? (
         <>
           <div>
@@ -157,13 +182,25 @@ export default function Home() {
             {' g per day'}
           </div>
         </>
-      ) : <p>You have not set any goals yet...</p>}
+      ) : <p>You have not set any goals yet...</p>} */}
 
       {/* {isConnected ? (
         console.log('You are connected to MongoDB')
       ) : (
         console.log('You are NOT connected to MongoDB')
       )} */}
+
+      {(!goals || !mealPlans)
+        && (
+          <>
+            <h1>Welcome</h1>
+            <p>
+              See the total amount of nutrients for your meal plans
+              and compare the numbers with your own goals!
+            </p>
+            <GetStartedInfo />
+          </>
+        )}
     </>
   );
 }

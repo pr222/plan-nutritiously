@@ -27,7 +27,7 @@ export default function CreateFoodItem() {
     food.fats = data.fats;
     food.carbohydrates = data.carbohydrates;
     food.proteins = data.proteins;
-    food.costPerKg = data.costPerKg;
+    food.costPerKg = Number(data.costPerKg);
 
     addItemToArray('foodItems', food);
 
