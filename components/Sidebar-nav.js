@@ -6,7 +6,7 @@ const SidebarNav = () => (
     <ul className={style.mainUl}>
       <li>
         <Link href="/">
-          <a>Dashboard</a>
+          <a>Overview</a>
         </Link>
       </li>
       <li>

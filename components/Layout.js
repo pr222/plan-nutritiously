@@ -9,9 +9,9 @@ const Layout = ({ children }) => (
       <h1>Plan</h1>
       <h2>Nutritiously</h2>
     </div>
-    <div className={style.box1} />
+    {/* <div className={style.box1} />
     <div className={style.box2} />
-    <div className={style.box3} />
+    <div className={style.box3} /> */}
     <SidebarNav className={style.leftSideBar} />
     <main>{children}</main>
     <footer>

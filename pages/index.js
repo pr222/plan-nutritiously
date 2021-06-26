@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 // import { useForm } from 'react-hook-form';
 import { getFromStorage } from '../utils/handleStorage';
 // import style from '../styles/Form.module.css';
+// import layoutStyle from '../styles/Layout.module.css';
 // import mockFoodItems from '../mocks/mockFoodItems';
 // import mockIngredients from '../mocks/mockIngredients';
 // import Ingredient from '../classes/Ingredient';
@@ -84,6 +85,10 @@ export default function Home() {
       {mealPlans
       && (
         <>
+          {/* <div className="box1">
+            <p>Hello box 1!</p>
+          </div> */}
+
           <form>
             <label htmlFor="selectMealPlan">
               <div>Choose a Meal Plan to overview:</div>
@@ -101,24 +106,65 @@ export default function Home() {
               <>
                 <h1>{currentMealPlan.name}</h1>
                 {/* <p>{currentMealPlan.id}</p> */}
+                <h2>Overview</h2>
 
                 {currentMealPlan.totalCost
                   && (
                     <>
-                      <h2>Total Cost</h2>
-                      <div>{currentMealPlan.totalCost}</div>
+                      <h3>{`Cost: ${currentMealPlan.totalCost} :-`}</h3>
+                      {/* <div>{`Total Cost: ${currentMealPlan.totalCost} :-`}</div> */}
                     </>
                   )}
 
                 {currentMealPlan.totalNutrients
                   && (
                     <>
-                      <h2>Total Nutrients</h2>
+                      <h3>Total Nutrients</h3>
                       <ul>
-                        <li>{`Kcal: ${currentMealPlan.totalNutrients.kcal}`}</li>
-                        <li>{`Fats: ${currentMealPlan.totalNutrients.fats}`}</li>
-                        <li>{`Carbs: ${currentMealPlan.totalNutrients.carbohydrates}`}</li>
-                        <li>{`Proteins: ${currentMealPlan.totalNutrients.proteins}`}</li>
+                        <li>
+                          {`Kcal: ${currentMealPlan.totalNutrients.kcal}`}
+                          {(goals && goals.kcal)
+                            && (
+                              <p>
+                                {`Your goal of ${goals.kcal} `}
+                                {goals.kcal <= currentMealPlan.totalNutrients.kcal
+                                  ? 'reached!' : 'is almost there...'}
+                              </p>
+                            )}
+                        </li>
+                        <li>
+                          {`Fats: ${currentMealPlan.totalNutrients.fats}`}
+                          {(goals && goals.fats)
+                            && (
+                              <p>
+                                {`Your goal of ${goals.fats} `}
+                                  {goals.fats <= currentMealPlan.totalNutrients.fats
+                                    ? 'reached!' : 'is almost there...'}
+                              </p>
+                            )}
+                        </li>
+                        <li>
+                          {`Carbs: ${currentMealPlan.totalNutrients.carbohydrates}`}
+                          {(goals && goals.carbohydrates)
+                            && (
+                              <p>
+                                {`Your goal of ${goals.carbohydrates} `}
+                                {goals.carbohydrates <= currentMealPlan.totalNutrients.carbohydrates
+                                  ? 'reached!' : 'is almost there...'}
+                              </p>
+                            )}
+                        </li>
+                        <li>
+                          {`Proteins: ${currentMealPlan.totalNutrients.proteins}`}
+                          {(goals && goals.proteins)
+                            && (
+                              <p>
+                                {`Your goal of ${goals.proteins} `}
+                                {goals.proteins <= currentMealPlan.totalNutrients.proteins
+                                  ? 'reached!' : 'is almost there...'}
+                              </p>
+                            )}
+                        </li>
                       </ul>
                     </>
                   )}
@@ -126,7 +172,7 @@ export default function Home() {
                 {currentMealPlan.ingredients
                   && (
                     <>
-                      <h2>Ingredients</h2>
+                      <h3>Ingredients</h3>
                       <ul>
                         {currentMealPlan.ingredients.map((elem) => (
                           <li key={`ingredient-${elem.id}`}>
@@ -190,7 +236,7 @@ export default function Home() {
         console.log('You are NOT connected to MongoDB')
       )} */}
 
-      {(!goals || !mealPlans)
+      {(!goals && !mealPlans)
         && (
           <>
             <h1>Welcome</h1>

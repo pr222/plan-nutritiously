@@ -26,6 +26,16 @@ const GetStarted = () => (
       </Link>
       {' to then fill it with desired ingredients from your collection.'}
     </p>
+    <h3>Overview</h3>
+    <p>
+      When you have at least one meal plan with some food added in it,
+      {' you can go choose the meal plan in the '}
+      <Link href="/">
+        <a>overview</a>
+      </Link>
+      {' and see all the automatically calculated data of your meal plan. '}
+      If you did already set the goals you can also see how well the meal plan meets those goals!
+    </p>
   </>
 );
 
