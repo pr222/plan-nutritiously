@@ -10,7 +10,7 @@ import style from '../styles/Form.module.css';
 
 const MealPlanEditor = ({ mealplan }) => {
   const [foodItems, setFoodItems] = useState([]);
-  const [currentMealPlan, setCurrentMealPlan] = useState({});
+  const [savedMealPlan, setSavedMealPlan] = useState({});
   const [currentIngredients, setCurrentIngredients] = useState([]);
   const [currentEditId, setCurrentEditId] = useState();
   const [isSaved, setIsSaved] = useState(false);
@@ -43,7 +43,7 @@ const MealPlanEditor = ({ mealplan }) => {
   }, [mealplan.id]);
 
   useEffect(() => {
-    setCurrentMealPlan(mealplan);
+    setSavedMealPlan(mealplan);
   }, [mealplan]);
 
   useEffect(() => {
@@ -67,12 +67,14 @@ const MealPlanEditor = ({ mealplan }) => {
   };
 
   const submitEditIngredient = (data) => {
-    const editedIngredient = currentIngredients.find((elem) => elem.id === data.ingredientId);
-    editedIngredient.amount = Number(data.editValue);
+    const ingredient = currentIngredients.find((elem) => elem.id === data.ingredientId);
+    const ingredientAsClass = Object.assign(new Ingredient(), ingredient);
+    // editedIngredient.amount = Number(data.editValue);
+    ingredientAsClass.updateAmount(Number(data.editValue));
 
     const index = currentIngredients.findIndex((elem) => elem.id === data.ingredientId);
     const updatedIngredients = Array.from(currentIngredients);
-    updatedIngredients.splice(index, 1, editedIngredient);
+    updatedIngredients.splice(index, 1, ingredientAsClass);
 
     setCurrentIngredients(updatedIngredients);
     setCurrentEditId();
@@ -87,13 +89,23 @@ const MealPlanEditor = ({ mealplan }) => {
   };
 
   const submitSaveMealPlan = async () => {
+    // console.log('PROP', mealplan);
+    // console.log('SAVED PREV', savedMealPlan);
     const plan = {
-      ...currentMealPlan,
+      ...savedMealPlan,
     };
-
     plan.ingredients = currentIngredients;
+    const planAsClass = Object.assign(new MealPlan(), plan);
+    console.log('AS NEW CLASS', planAsClass);
+    // currentIngredients.forEach((elem) => {
+    //   planAsClass.replaceIngredient(elem);
+    // });
+    planAsClass.countTotalCost();
+    planAsClass.countTotalNutrients();
+    console.log('AFTER METHODS', planAsClass);
+    await updateItemInArray('mealPlans', planAsClass);
 
-    await updateItemInArray('mealPlans', plan);
+    setSavedMealPlan(planAsClass);
 
     setIsSaved(true);
     setTimeout(() => {
@@ -107,7 +119,7 @@ const MealPlanEditor = ({ mealplan }) => {
 
   return (
     <>
-      <h2>{currentMealPlan.name}</h2>
+      <h2>{savedMealPlan.name}</h2>
 
       {foodItems
         ? (

@@ -10,7 +10,7 @@ export default class Ingredient {
   constructor(foodInfo, amount) {
     const foodItem = Object.assign(new FoodItem(), foodInfo);
 
-    this.name = foodInfo.name || 'A Food Item';
+    this.name = foodItem.name || 'A Food Item';
     this.id = uuidv4();
     this.nutritionPer100g = foodItem.nutrition;
     this.summedNutrition = {

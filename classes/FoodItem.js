@@ -13,7 +13,7 @@ export default class FoodItem {
       carbohydrates: aFood ? aFood.carbohydrates : 0,
       proteins: aFood ? aFood.proteins : 0,
     };
-    this.costPerKg = aFood ? aFood.costPerKg : 0;
+    this.costPerKg = aFood ? Number(aFood.costPerKg) : 0;
   }
 
   get kcal() {

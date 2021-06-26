@@ -3,7 +3,8 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: min-content;
   grid-template-areas: 
-  "logo   box1    box2    box3"
+  "logo   main    main    main"
+  "lbar   main    main    main"
   "lbar   main    main    main"
   "footer  footer  footer  footer";
   padding: 5px;
@@ -49,7 +50,7 @@
 
 .container main {
   grid-area: main;
-  margin: 0px 20px;
+  margin: 50px 20px;
   margin-bottom: 50px;
 }
 
