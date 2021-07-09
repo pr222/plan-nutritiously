@@ -14,6 +14,7 @@ export default function CreateMealPlan() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -25,6 +26,7 @@ export default function CreateMealPlan() {
 
     setCreatedId(mealPlan.id);
     setIsCreated(true);
+    reset();
   };
 
   return (
@@ -47,7 +49,7 @@ export default function CreateMealPlan() {
               {...register('name', { required: true })}
             />
           </label>
-          {errors.name && <p className={style.errorMessage}>Name is required!</p>}
+          {errors.name && <p className={style.errorMessage}>Name is required! &#128123;</p>}
         </fieldset>
 
         <button type="submit">Create Meal Plan</button>
@@ -56,6 +58,8 @@ export default function CreateMealPlan() {
           && (
             <p>
               {'Created! '}
+              &#128516;
+              {' '}
               <Link href={`/mealPlans/details/${createdId}`}>
                 <a>View Meal Plan</a>
               </Link>

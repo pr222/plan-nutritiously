@@ -31,12 +31,12 @@ export default function MealPlanDetails() {
 
       {mealPlan ? (
         <>
-          <h1>Meal Plan</h1>
-          <button type="button">
-            <Link href={`/mealPlans/edit/${itemId}`}>
-              <a>Edit Meal Plan</a>
-            </Link>
-          </button>
+          <h1>{mealPlan.name}</h1>
+          <Link href={`/mealPlans/edit/${itemId}`}>
+            <a>
+              <button type="button" className="editButton">Edit Meal Plan &#128395;</button>
+            </a>
+          </Link>
 
           <MealPlanEditor mealplan={mealPlan} />
         </>

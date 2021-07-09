@@ -29,8 +29,8 @@ export default function GetStarted() {
       <h2>Usage</h2>
       <p>
         As a visitor you are free to use the application as intended, however the
-        application may without notice change functionalities that may
-        break your previous changes or data. Tha application itself may
+        application may without notice change functionalities that can
+        break your previous changes or data. The application itself may
         be taken down without prior notifications.
       </p>
       <h2>Data</h2>
@@ -40,7 +40,7 @@ export default function GetStarted() {
         In other words, no data gets recorded for any use outside the current
         browser in your current device. That also means that if you use
         incognito-mode all data get lost when you close the window. If you do not
-        use incognito-mode you can close the window and the data will still
+        use incognito-mode you can safely close the window and the data will still
         be there, provided that you still use the same device and browser.
       </p>
     </>

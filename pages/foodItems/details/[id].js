@@ -30,38 +30,41 @@ export default function FoodItemDetails() {
 
       {foodItem ? (
         <>
-          <h1>{foodItem.name}</h1>
+          <h1 className="header">{foodItem.name}</h1>
+
+          <Link href={`/foodItems/edit/${itemId}`}>
+            <a>
+              <button type="button" className="editButton">Edit Food Item &#128395;</button>
+            </a>
+          </Link>
           <h2>Nutrition per 100g</h2>
-          <ul>
+          <ul className="noDotList">
             <li>
-              Kcal:
+              &#128293; Kcal:
               {` ${foodItem.kcal}`}
             </li>
             <li>
-              Fats:
+              &#129361; Fats:
               {` ${foodItem.fats}`}
             </li>
             <li>
-              Carbohydrates:
+              &#127834; Carbohydrates:
               {` ${foodItem.carbohydrates}`}
             </li>
             <li>
-              Proteins:
+              &#127830; Proteins:
               {` ${foodItem.proteins}`}
             </li>
           </ul>
           <h2>Prices</h2>
-          <ul>
+          <ul className="noDotList">
             <li>
+              &#128184;
               Cost per kg:
               {` ${foodItem.costPerKg}`}
             </li>
           </ul>
-          <button type="button">
-            <Link href={`/foodItems/edit/${itemId}`}>
-              <a>Edit Food Item</a>
-            </Link>
-          </button>
+
         </>
       ) : <p>Loading...</p>}
     </>

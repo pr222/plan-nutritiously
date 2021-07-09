@@ -20,7 +20,7 @@ export default function FoodItems() {
       <Head>
         <title>Food Items</title>
       </Head>
-      <h1>My Food Items</h1>
+      <h1 className="header">My Food Items</h1>
       {foodItems ? (
         <ul>
           {foodItems.map((item) => (

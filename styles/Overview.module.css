@@ -1,0 +1,55 @@
+.boxWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-bottom: 15px;
+  margin-top: -25px;
+}
+
+.box1, .box2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  margin: 5px;
+  background-color: #FCEFB4;
+}
+
+.box1 {
+  padding: 25px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.box1 select {
+  margin: 2px;
+  padding: 5px;
+  background-color: #F8BF0D;
+  color: #1D3557;
+  width: 100%;
+  font-family: 'Lato', sans-serif;
+  font-style: italic;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.box2 {
+  background-color: #FCEFB4;
+}
+
+.totalCostHeader {
+  font-size: 1.5rem;
+}
+
+.header {
+  background-color: #AFE2B9;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  padding-top: 3px;
+}
+
+.header h1 {
+  font-size: 2rem; 
+}
