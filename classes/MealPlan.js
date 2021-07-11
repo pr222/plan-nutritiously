@@ -107,7 +107,5 @@ export default class MealPlan {
     this.totalNutrients.fats = Number(newFats.toFixed(2));
     this.totalNutrients.carbohydrates = Number(newCarbohydrates.toFixed(2));
     this.totalNutrients.proteins = Number(newProteins.toFixed(2));
-
-    // console.log('TOTAL NUTRIENTS', this.totalNutrients);
   }
 }

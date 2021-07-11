@@ -8,8 +8,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Lato', sans-serif;
-  font-weight: 300;/*
-  line-height: 1.6; */
+  font-weight: 300;
   font-size: 1.25rem;
   color: #1D3557;
   background-color: #f7f7f7;
@@ -30,17 +29,6 @@ h2 {
 h3 {
   font-size: 1.35rem;
 }
-/* 
-.header {
-  background-color: #AFE2B9;
-  padding-left: 5px;
-  padding-bottom: 5px;
-  padding-top: 3px;
-}
-
-.header h1 {
-  font-size: 2rem; 
-} */
 
 a {
   color: #237594;
@@ -53,11 +41,6 @@ a:visited {
 a:hover, a:active {
   color: #B80AAD;
 }
-
-/* a:active {
-  color: #F8BF0D;
-  font-weight: 600;
-} */
 
 .noDotList {
   list-style-type: none;

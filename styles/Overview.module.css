@@ -53,3 +53,14 @@
 .header h1 {
   font-size: 2rem; 
 }
+
+.nutrientWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.diagramWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px;
+}

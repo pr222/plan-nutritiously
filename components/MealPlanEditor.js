@@ -70,7 +70,7 @@ const MealPlanEditor = ({ mealplan }) => {
   const submitEditIngredient = (data) => {
     const ingredient = currentIngredients.find((elem) => elem.id === data.ingredientId);
     const ingredientAsClass = Object.assign(new Ingredient(), ingredient);
-    // editedIngredient.amount = Number(data.editValue);
+
     ingredientAsClass.updateAmount(Number(data.editValue));
 
     const index = currentIngredients.findIndex((elem) => elem.id === data.ingredientId);
@@ -90,17 +90,12 @@ const MealPlanEditor = ({ mealplan }) => {
   };
 
   const submitSaveMealPlan = async () => {
-    // console.log('PROP', mealplan);
-    // console.log('SAVED PREV', savedMealPlan);
     const plan = {
       ...savedMealPlan,
     };
     plan.ingredients = currentIngredients;
     const planAsClass = Object.assign(new MealPlan(), plan);
-    // console.log('AS NEW CLASS', planAsClass);
-    // currentIngredients.forEach((elem) => {
-    //   planAsClass.replaceIngredient(elem);
-    // });
+
     planAsClass.countTotalCost();
     planAsClass.countTotalNutrients();
     // console.log('AFTER METHODS', planAsClass);
@@ -178,7 +173,6 @@ const MealPlanEditor = ({ mealplan }) => {
                     ? (
                       <>
                         <form onSubmit={handleSubmit(submitEditIngredient)} className={style.form}>
-                          {/* <fieldset> */}
                           <label htmlFor="ingredientId">
                             <input
                               type="hidden"
@@ -200,7 +194,6 @@ const MealPlanEditor = ({ mealplan }) => {
                           {errors.editValue
                             && <p className={style.errorMessage}>Invalid number! &#128586;</p>}
                           <button type="submit" className="editButton">Apply</button>
-                          {/* </fieldset> */}
                         </form>
 
                         {!errors.editValue

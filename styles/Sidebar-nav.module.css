@@ -1,18 +1,10 @@
-/*
-.nav {
- background-color: #FFFFFF; 
-}
-*/
 .mainUl {
   padding: 0px;
 }
 
 .mainUl li {
   list-style: none;
-  /* margin: 5px; */
   margin-left: 0px;
-  /* padding: 3px; */
-  /* background-color: #FFFFFF; */
   text-align: center;
   font-weight: 300;
 }
@@ -45,10 +37,3 @@
   padding: 5px;
   display: block;
 }
-
-/* .subList li {
-  padding: 0px;
-  margin: 0px;
-} */
-
-

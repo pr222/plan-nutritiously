@@ -38,49 +38,6 @@ const SidebarNav = () => (
           <a>&#127942; My Goals</a>
         </Link>
       </li>
-
-      {/* <li>
-        &#127857; My Food Items
-      </li>
-      <ul className={style.subList}>
-        <li>
-          <Link href="/foodItems/">
-            <a>All Food Items</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/foodItems/new/create-food-item">
-            <a>New Food Item</a>
-          </Link>
-        </li>
-      </ul> */}
-
-      {/* <li>
-        &#128203; My Meal Plans
-      </li>
-      <ul className={style.subList}>
-        <li>
-          <Link href="/mealPlans/">
-            <a>All Meal Plans</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/mealPlans/new/create-meal-plan">
-            <a>New Meal Plan</a>
-          </Link>
-        </li>
-      </ul> */}
-
-      {/* <li>
-        Profile
-      </li>
-      <ul className={style.subList}>
-        <li>
-          <Link href="/profile/edit-goals">
-            <a>My Goals</a>
-          </Link>
-        </li>
-      </ul> */}
     </ul>
   </nav>
 );

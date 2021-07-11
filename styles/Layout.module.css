@@ -8,7 +8,6 @@
   "lbar   main    main    main"
   "footer  footer  footer  footer";
   padding: 5px;
-  /* background-color:rgb(250, 158, 255); */
 }
 
 .logo {
@@ -92,8 +91,3 @@
 .footer a:hover, .footer a:active {
   color: #B80AAD;
 }
-
-/* .footer a:active {
-  color: #F8BF0D;
-} */
-

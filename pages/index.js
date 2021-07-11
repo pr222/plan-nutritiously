@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import { getFromStorage } from '../utils/handleStorage';
 import MealPlan from '../classes/MealPlan';
 import GetStartedInfo from '../components/GetStartedInfo';
+import Diagram from '../components/Diagram';
 import style from '../styles/Overview.module.css';
+import 'react-circular-progressbar/dist/styles.css';
 
 export default function Home() {
   const [goals, setGoals] = useState([]);
@@ -92,52 +94,46 @@ export default function Home() {
                       <div className={style.header}>
                         <h1>Nutrients</h1>
                       </div>
-                      <ul>
-                        <li>
-                          {`Kcal: ${currentMealPlan.totalNutrients.kcal}`}
-                          {(goals && goals.kcal)
-                            && (
-                              <p>
-                                {`Your goal of ${goals.kcal} `}
-                                {goals.kcal <= currentMealPlan.totalNutrients.kcal
-                                  ? 'reached!' : 'is almost there...'}
-                              </p>
-                            )}
-                        </li>
-                        <li>
-                          {`Fats: ${currentMealPlan.totalNutrients.fats}`}
-                          {(goals && goals.fats)
-                            && (
-                              <p>
-                                {`Your goal of ${goals.fats} `}
-                                  {goals.fats <= currentMealPlan.totalNutrients.fats
-                                    ? 'reached!' : 'is almost there...'}
-                              </p>
-                            )}
-                        </li>
-                        <li>
-                          {`Carbs: ${currentMealPlan.totalNutrients.carbohydrates}`}
-                          {(goals && goals.carbohydrates)
-                            && (
-                              <p>
-                                {`Your goal of ${goals.carbohydrates} `}
-                                {goals.carbohydrates <= currentMealPlan.totalNutrients.carbohydrates
-                                  ? 'reached!' : 'is almost there...'}
-                              </p>
-                            )}
-                        </li>
-                        <li>
-                          {`Proteins: ${currentMealPlan.totalNutrients.proteins}`}
-                          {(goals && goals.proteins)
-                            && (
-                              <p>
-                                {`Your goal of ${goals.proteins} `}
-                                {goals.proteins <= currentMealPlan.totalNutrients.proteins
-                                  ? 'reached!' : 'is almost there...'}
-                              </p>
-                            )}
-                        </li>
-                      </ul>
+                      <div className={style.nutrientWrapper}>
+                        <div>
+                          <h2>Energy</h2>
+                          <div className={style.diagramWrapper}>
+                            <Diagram
+                              goal={goals.kcal}
+                              nutrientValue={currentMealPlan.totalNutrients.kcal}
+                              nutrientType="Kcal"
+                              emoji="&#128293;"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <h2>Macro Nutrients</h2>
+                          <div className={style.diagramWrapper}>
+                            <Diagram
+                              goal={goals.fats}
+                              nutrientValue={currentMealPlan.totalNutrients.fats}
+                              nutrientType="Fat"
+                              unit="g"
+                              emoji="&#129361;"
+                            />
+                            <Diagram
+                              goal={goals.carbohydrates}
+                              nutrientValue={currentMealPlan.totalNutrients.carbohydrates}
+                              nutrientType="Carbs"
+                              unit="g"
+                              emoji="&#127834;"
+                            />
+                            <Diagram
+                              goal={goals.proteins}
+                              nutrientValue={currentMealPlan.totalNutrients.proteins}
+                              nutrientType="Protein"
+                              unit="g"
+                              emoji="&#127830;"
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </>
                   )}
 
