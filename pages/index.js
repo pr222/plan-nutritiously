@@ -158,6 +158,17 @@ export default function Home() {
         </>
       )}
 
+      {(goals && !mealPlans)
+        && (
+          <>
+            <h1>No Meal Plans to overview yet!</h1>
+            <p>Seems like you have added some goals for yourself, great! &#128516;</p>
+            <p>Now you just need to create some Meal Plans to overview here.</p>
+            <p>(And add some Food Items in case you haven´t done that already...)</p>
+            <GetStartedInfo />
+          </>
+        )}
+
       {(!goals && !mealPlans)
         && (
           <>
