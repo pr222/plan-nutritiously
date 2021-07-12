@@ -99,7 +99,7 @@ export default function Home() {
                           <h2>Energy</h2>
                           <div className={style.diagramWrapper}>
                             <Diagram
-                              goal={goals.kcal}
+                              goal={goals ? goals.kcal : ''}
                               nutrientValue={currentMealPlan.totalNutrients.kcal}
                               nutrientType="Kcal"
                               emoji="&#128293;"
@@ -111,21 +111,21 @@ export default function Home() {
                           <h2>Macro Nutrients</h2>
                           <div className={style.diagramWrapper}>
                             <Diagram
-                              goal={goals.fats}
+                              goal={goals ? goals.fats : ''}
                               nutrientValue={currentMealPlan.totalNutrients.fats}
                               nutrientType="Fat"
                               unit="g"
                               emoji="&#129361;"
                             />
                             <Diagram
-                              goal={goals.carbohydrates}
+                              goal={goals ? goals.carbohydrates : ''}
                               nutrientValue={currentMealPlan.totalNutrients.carbohydrates}
                               nutrientType="Carbs"
                               unit="g"
                               emoji="&#127834;"
                             />
                             <Diagram
-                              goal={goals.proteins}
+                              goal={goals ? goals.proteins : ''}
                               nutrientValue={currentMealPlan.totalNutrients.proteins}
                               nutrientType="Protein"
                               unit="g"
