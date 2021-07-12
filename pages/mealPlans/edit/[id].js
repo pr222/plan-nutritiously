@@ -89,19 +89,21 @@ export default function EditMealPlan() {
                   {...register('name', { required: true })}
                 />
               </label>
-              {errors.name && <p className={style.errorMessage}>Name is required!</p>}
+              {errors.name && <p className={style.errorMessage}>Name is required! &#128123;</p>}
             </fieldset>
             <button type="submit">Update</button>
           </form>
 
           <form onSubmit={handleSubmit(handleDeleteSubmit)}>
-            <button type="submit">Delete Item</button>
+            <button type="submit" className="deleteButton">Delete Meal Plan &#128465;</button>
           </form>
 
           {isSaved === true
           && (
             <p>
               {'Updated! '}
+              &#128516;
+              {' '}
               <Link href={`/mealPlans/details/${itemId}`}>
                 <a>View Meal Plan</a>
               </Link>

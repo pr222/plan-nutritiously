@@ -1,32 +1,39 @@
-/*
-.nav {
- background-color: #FFFFFF; 
-}
-*/
 .mainUl {
   padding: 0px;
 }
 
 .mainUl li {
   list-style: none;
-  margin: 3px;
   margin-left: 0px;
-  padding: 3px;
-  background-color: #FFFFFF;
   text-align: center;
   font-weight: 300;
 }
 
 .nav a {
   text-decoration: none;
+  color: #1D3557;
 }
 
-.nav a:hover {
-  font-weight: 700;
+.subList a:visited, .mainUl a:visited {
+  color: #1D3557;
 }
 
-.subList li {
-  background-color: #D9D9D9;
+.subList a:hover, .subList a:active, .mainUl a:hover, .mainUl a:active {
+  background-color: #55ABAE;
+  color: #590553;
+  ;
+}
+
+.mainUl a {
+  font-size: 1.35rem;
+  background-color: #A0D0D2;
+  padding: 5px;
+  display: block;
+}
+
+.subList a {
+  background-color: #55abae27;
   font-size: 1rem;
-  margin-top: -3px;
+  padding: 5px;
+  display: block;
 }

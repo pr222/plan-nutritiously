@@ -100,14 +100,13 @@ export default function EditFoodItem() {
                   {...register('name', { required: true })}
                 />
               </label>
-              {errors.name && <p className={style.errorMessage}>Name is required!</p>}
+              {errors.name && <p className={style.errorMessage}>Name is required! &#128123;</p>}
             </fieldset>
+
             <fieldset>
               <legend className={style.header}>Nutrition</legend>
               <label htmlFor="kcal">
-                Kcal
-                {errors.kcal
-                && <p className={style.errorMessage}>Use only whole numbers for kcal!</p>}
+                &#128293; Kcal
                 <input
                   id="kcal"
                   name="kcal"
@@ -117,9 +116,11 @@ export default function EditFoodItem() {
                   })}
                 />
               </label>
+              {errors.kcal
+              && <p className={style.errorMessage}>Use only whole numbers for kcal!</p>}
+
               <label htmlFor="fats">
-                Fats
-                {errors.fats && <p className={style.errorMessage}>Invalid number!</p>}
+                &#129361; Fats
                 <input
                   id="fats"
                   name="fats"
@@ -131,10 +132,15 @@ export default function EditFoodItem() {
                   })}
                 />
               </label>
+              {errors.fats
+                && (
+                <p className={style.errorMessage}>
+                  Example of accepted format for numbers: 12.05
+                </p>
+                )}
+
               <label htmlFor="carbohydrates">
-                Carbohydrates
-                {errors.carbohydrates
-                && <p className={style.errorMessage}>Invalid number!</p>}
+                &#127834; Carbohydrates
                 <input
                   id="carbohydrates"
                   name="carbohydrates"
@@ -146,9 +152,15 @@ export default function EditFoodItem() {
                   })}
                 />
               </label>
+              {errors.carbohydrates
+                && (
+                <p className={style.errorMessage}>
+                  Example of accepted format for numbers: 12.05
+                </p>
+                )}
+
               <label htmlFor="proteins">
-                Proteins
-                {errors.proteins && <p className={style.errorMessage}>Invalid number!</p>}
+                &#127830; Proteins
                 <input
                   id="proteins"
                   name="proteins"
@@ -160,12 +172,18 @@ export default function EditFoodItem() {
                   })}
                 />
               </label>
+              {errors.proteins
+              && (
+                <p className={style.errorMessage}>
+                  Example of accepted format for numbers: 12.05
+                </p>
+              )}
             </fieldset>
+
             <fieldset>
               <legend className={style.header}>Prices</legend>
               <label htmlFor="costPerKg">
                 Cost per kg
-                {errors.costPerKg && <p className={style.errorMessage}>Invalid number!</p>}
                 <input
                   id="costPerKg"
                   name="costPerKg"
@@ -177,22 +195,27 @@ export default function EditFoodItem() {
                   })}
                 />
               </label>
+              {errors.costPerKg
+                && (
+                <p className={style.errorMessage}>
+                  Example of accepted format for numbers: 12.05
+                </p>
+                )}
             </fieldset>
-            {(errors.fats || errors.carbohydrates
-            || errors.proteins || errors.costPerKg) && (
-              <p>Example of accepted format for numbers: 12.05</p>
-            )}
+
             <button type="submit">Update Item</button>
           </form>
 
           <form onSubmit={handleSubmit(handleDeleteSubmit)}>
-            <button type="submit">Delete Item</button>
+            <button type="submit" className="deleteButton">Delete Item &#128465;</button>
           </form>
 
           {isSaved === true
           && (
             <p>
               {'Updated! '}
+              &#128516;
+              {' '}
               <Link href={`/foodItems/details/${itemId}`}>
                 <a>View Food Item</a>
               </Link>

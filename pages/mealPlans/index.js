@@ -20,7 +20,7 @@ export default function MealPlans() {
       <Head>
         <title>Meal Plans</title>
       </Head>
-      <h1>My Meal Plans</h1>
+      <h1 className="header">My Meal Plans</h1>
       {mealPlans ? (
         <ul>
           {mealPlans.map((item) => (

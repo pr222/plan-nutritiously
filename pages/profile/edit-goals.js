@@ -54,7 +54,7 @@ export default function EditGoals() {
         <fieldset>
           <legend className={style.header}>Calories</legend>
           <label htmlFor="goalKcal">
-            kcal
+            &#128293; Kcal
             <input
               id="goalKcal"
               name="goalKcal"
@@ -64,12 +64,13 @@ export default function EditGoals() {
               })}
             />
           </label>
+          {errors.kcal && <p className={style.errorMessage}>Only use whole numbers!</p>}
         </fieldset>
 
         <fieldset>
           <legend className={style.header}>Macro Nutrients</legend>
           <label htmlFor="goalFat">
-            Fats
+            &#129361; Fats
             <input
               id="goalFat"
               name="goalFat"
@@ -79,8 +80,15 @@ export default function EditGoals() {
               })}
             />
           </label>
+          {errors.fats
+          && (
+            <p className={style.errorMessage}>
+              Only use whole numbers!
+            </p>
+          )}
+
           <label htmlFor="goalCarbs">
-            Carbohydrates
+            &#127834; Carbohydrates
             <input
               id="goalCarbs"
               name="goalCarbs"
@@ -90,27 +98,35 @@ export default function EditGoals() {
               })}
             />
           </label>
+          {errors.carbohydrates
+            && (
+              <p className={style.errorMessage}>
+                Only use whole numbers!
+              </p>
+            )}
+
           <label htmlFor="goalProtein">
-            Proteins
+            &#127830; Proteins
             <input
               id="goalProtein"
               name="goalProtein"
-              placeholder="min protein g/day"
+              placeholder="min proteins g/day"
               {...register('proteins', {
                 validate: (value) => /\D+/.test(value) !== true,
               })}
             />
           </label>
+          {errors.proteins
+            && (
+              <p className={style.errorMessage}>
+                Only use whole numbers!
+              </p>
+            )}
         </fieldset>
 
         <button type="submit">Save Goals</button>
 
-        {isSaved === true && <p>Goals Saved!</p>}
-
-        {(errors.kcal || errors.fats || errors.carbohydrates
-        || errors.proteins) && (
-          <p>Only use whole numbers!</p>
-        )}
+        {isSaved === true && <p>Goals Saved! &#128516;</p>}
 
       </form>
     </>

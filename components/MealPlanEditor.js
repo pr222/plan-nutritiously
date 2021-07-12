@@ -64,12 +64,13 @@ const MealPlanEditor = ({ mealplan }) => {
     ingredients.push(ingredient);
 
     setCurrentIngredients(ingredients);
+    reset();
   };
 
   const submitEditIngredient = (data) => {
     const ingredient = currentIngredients.find((elem) => elem.id === data.ingredientId);
     const ingredientAsClass = Object.assign(new Ingredient(), ingredient);
-    // editedIngredient.amount = Number(data.editValue);
+
     ingredientAsClass.updateAmount(Number(data.editValue));
 
     const index = currentIngredients.findIndex((elem) => elem.id === data.ingredientId);
@@ -89,20 +90,15 @@ const MealPlanEditor = ({ mealplan }) => {
   };
 
   const submitSaveMealPlan = async () => {
-    // console.log('PROP', mealplan);
-    // console.log('SAVED PREV', savedMealPlan);
     const plan = {
       ...savedMealPlan,
     };
     plan.ingredients = currentIngredients;
     const planAsClass = Object.assign(new MealPlan(), plan);
-    console.log('AS NEW CLASS', planAsClass);
-    // currentIngredients.forEach((elem) => {
-    //   planAsClass.replaceIngredient(elem);
-    // });
+
     planAsClass.countTotalCost();
     planAsClass.countTotalNutrients();
-    console.log('AFTER METHODS', planAsClass);
+    // console.log('AFTER METHODS', planAsClass);
     await updateItemInArray('mealPlans', planAsClass);
 
     setSavedMealPlan(planAsClass);
@@ -119,8 +115,6 @@ const MealPlanEditor = ({ mealplan }) => {
 
   return (
     <>
-      <h2>{savedMealPlan.name}</h2>
-
       {foodItems
         ? (
           <>
@@ -129,7 +123,7 @@ const MealPlanEditor = ({ mealplan }) => {
                 <label htmlFor="selectedFoodItemId">
                   Choose a food from your collection:
                   <select {...register('selectedFoodItemId')}>
-                    <option key="option-default" value="">Foods</option>
+                    <option key="option-default" value="">Food Items</option>
                     {foodItems.map((elem) => (
                       <option key={`option-${elem.id}`} value={elem.id}>{elem.name}</option>
                     ))}
@@ -137,7 +131,6 @@ const MealPlanEditor = ({ mealplan }) => {
                 </label>
                 <label htmlFor="amount">
                   Amount in grams:
-                  {errors.amount && <p className={style.errorMessage}>Invalid number!</p>}
                   <input
                     placeholder="grams"
                     {...register('amount', {
@@ -147,6 +140,7 @@ const MealPlanEditor = ({ mealplan }) => {
                     })}
                   />
                 </label>
+                {errors.amount && <p className={style.errorMessage}>Invalid number! &#128586;</p>}
                 <button type="submit">Add</button>
               </fieldset>
             </form>
@@ -155,7 +149,7 @@ const MealPlanEditor = ({ mealplan }) => {
               <button type="submit">Save current ingredients list</button>
             </form>
 
-            {isSaved === true && <p>Meal Plan Saved!</p>}
+            {isSaved === true && <p>Meal Plan Saved! &#128516;</p>}
           </>
         )
         : (
@@ -172,17 +166,13 @@ const MealPlanEditor = ({ mealplan }) => {
       {currentIngredients
         && (
           <>
-            {currentIngredients.map((elem) => (
-              <li key={`ing-${elem.id}`}>
-
-                {elem.id === currentEditId
-                  ? (
-                    <>
-                      <form onSubmit={handleSubmit(submitEditIngredient)}>
-                        <fieldset>
-                          <label htmlFor="ingredientName">
-                            {elem.name}
-                          </label>
+            <ul>
+              {currentIngredients.map((elem) => (
+                <li key={`ing-${elem.id}`}>
+                  {elem.id === currentEditId
+                    ? (
+                      <>
+                        <form onSubmit={handleSubmit(submitEditIngredient)} className={style.form}>
                           <label htmlFor="ingredientId">
                             <input
                               type="hidden"
@@ -191,8 +181,7 @@ const MealPlanEditor = ({ mealplan }) => {
                             />
                           </label>
                           <label htmlFor="editValue">
-                            {errors.editValue
-                            && <p className={style.errorMessage}>Invalid number!</p>}
+                            {elem.name}
                             <input
                               placeholder="grams"
                               {...register('editValue', {
@@ -202,29 +191,34 @@ const MealPlanEditor = ({ mealplan }) => {
                               })}
                             />
                           </label>
-                          <button type="submit">Apply</button>
-                        </fieldset>
-                      </form>
+                          {errors.editValue
+                            && <p className={style.errorMessage}>Invalid number! &#128586;</p>}
+                          <button type="submit" className="editButton">Apply</button>
+                        </form>
 
-                      <form onSubmit={handleSubmit(submitDeleteIngredient)}>
-                        <label htmlFor="delIngredientId">
-                          <input
-                            type="hidden"
-                            {...register('delIngredientId')}
-                            value={elem.id}
-                          />
-                        </label>
-                        <button type="submit">Delete Item</button>
-                      </form>
-                    </>
-                  ) : (
-                    <>
-                      {`${elem.amount} g of ${elem.name} `}
-                      <button type="button" onClick={toggleEdit} id={elem.id}>Edit</button>
-                    </>
-                  )}
-              </li>
-            ))}
+                        {!errors.editValue
+                          && (
+                            <form onSubmit={handleSubmit(submitDeleteIngredient)}>
+                              <label htmlFor="delIngredientId">
+                                <input
+                                  type="hidden"
+                                  {...register('delIngredientId')}
+                                  value={elem.id}
+                                />
+                              </label>
+                              <button type="submit" className="deleteButton">{`Delete ${elem.name}`}</button>
+                            </form>
+                          )}
+                      </>
+                    ) : (
+                      <>
+                        <button type="button" onClick={toggleEdit} id={elem.id} className="editButton">Edit</button>
+                        {` ${elem.amount} g of ${elem.name} `}
+                      </>
+                    )}
+                </li>
+              ))}
+            </ul>
           </>
         )}
     </>
